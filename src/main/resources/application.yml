@@ -1,0 +1,6 @@
+spring:
+  profiles:
+    active:
+    - dev #使用开发配置文件
+#    - prod #使用生产配置文件
+
