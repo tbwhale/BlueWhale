@@ -56,9 +56,9 @@ public class POIWriteReadExcel {
 
     /**
      * 读取excel文件
-     * @param file
-     * @param rowCount
-     * @param columnCount
+     * @param file 文件名（含后缀名）
+     * @param rowCount Excel要读取行数 可为空
+     * @param columnCount Excel要读取列数 可为空
      * @return
      * @throws FileNotFoundException
      * @throws IOException
@@ -168,9 +168,8 @@ public class POIWriteReadExcel {
 	/**
      * 在硬盘上写入excel文件
      * 
-     * @author JIANGYOUYAO
-     * @email 935090232@qq.com
-     * @date 2017年12月20日
+     * @author zhangxiaorui
+     * @date 2019-3-13 19:49:49
      * @param version
      * @param excelSheets
      * @param filePath
@@ -185,9 +184,8 @@ public class POIWriteReadExcel {
     /**
      * 把excel表格写入输出流中，输出流会被关闭
      * 
-     * @author JIANGYOUYAO
-     * @email 935090232@qq.com
-     * @date 2017年12月20日
+     * @author 张晓睿
+     * @date 2019-3-13 19:50:22
      * @param version
      * @param excelSheets
      * @param outStream
