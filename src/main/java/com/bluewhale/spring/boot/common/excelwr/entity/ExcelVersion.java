@@ -1,6 +1,7 @@
 package com.bluewhale.spring.boot.common.excelwr.entity;
 
 /**
+ * Excel版本控制实体
  * @author ZhangXr
  * @date   2019年3月1日
  */

@@ -1,6 +1,6 @@
 package com.bluewhale.spring.boot.common.util;
 /**
- * 类说明
+ * 文件处理工具类
  * @author 张晓睿
  * @version 创建时间   2019年3月11日 下午6:23:07
  */

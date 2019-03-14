@@ -35,11 +35,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.bluewhale.spring.boot.common.excelwr.entity.ExcelSheetPO;
 import com.bluewhale.spring.boot.common.excelwr.entity.ExcelVersion;
 import com.bluewhale.spring.boot.common.util.FileUtil;
-//import com.bluewhale.spring.boot.common.util.FileUtil;
 
 
 /**
- * 类说明
+ * POI读写Excel工具类
  * @author 张晓睿
  * @version 创建时间   2019年3月11日 下午6:11:08
  */
@@ -122,7 +121,10 @@ public class POIWriteReadExcel {
 	}
 
 	/**
-	 * [方法功能描述]  
+	 * 单元格数据样式格式化
+	 * @param wb
+	 * @param cell
+	 * @return
 	 */
 	private static Object getCellValue(Workbook wb, Cell cell) {
 		Object columnValue = null;
@@ -167,9 +169,6 @@ public class POIWriteReadExcel {
 	
 	/**
      * 在硬盘上写入excel文件
-     * 
-     * @author zhangxiaorui
-     * @date 2019-3-13 19:49:49
      * @param version
      * @param excelSheets
      * @param filePath
@@ -183,9 +182,6 @@ public class POIWriteReadExcel {
 
     /**
      * 把excel表格写入输出流中，输出流会被关闭
-     * 
-     * @author 张晓睿
-     * @date 2019-3-13 19:50:22
      * @param version
      * @param excelSheets
      * @param outStream
@@ -204,6 +200,12 @@ public class POIWriteReadExcel {
         }
     }
 
+    /**
+     * 构建工作簿（Excel）
+     * @param version
+     * @param excelSheets
+     * @return
+     */
     private static Workbook createWorkBook(ExcelVersion version, List<ExcelSheetPO> excelSheets) {
         Workbook wb = createWorkbook(version);
         for (int i = 0; i < excelSheets.size(); i++) {
@@ -218,6 +220,13 @@ public class POIWriteReadExcel {
         return wb;
     }
 
+    /**
+     * 构建工作表（sheet）
+     * @param wb
+     * @param sheet
+     * @param excelSheetPO
+     * @param version
+     */
     private static void buildSheetData(Workbook wb, Sheet sheet, ExcelSheetPO excelSheetPO, ExcelVersion version) {
         sheet.setDefaultRowHeight((short) 400);
         sheet.setDefaultColumnWidth((short) 20);
@@ -239,6 +248,15 @@ public class POIWriteReadExcel {
         
     }
 
+    /**
+     * 构建数据体
+     * @param sheet
+     * @param excelSheetPO
+     * @param wb
+     * @param version
+     * @param titleFlag
+     * @param headersFlag
+     */
     private static void createBody(Sheet sheet, ExcelSheetPO excelSheetPO, Workbook wb, 
     		ExcelVersion version, boolean titleFlag, boolean headersFlag) {
         List<List<Object>> dataList = excelSheetPO.getDataList();
@@ -271,6 +289,14 @@ public class POIWriteReadExcel {
 
     }
 
+    /**
+     * 构建表头
+     * @param sheet
+     * @param excelSheetPO
+     * @param wb
+     * @param version
+     * @param titleFlag
+     */
     private static void createHeader(Sheet sheet, ExcelSheetPO excelSheetPO, Workbook wb, 
     		ExcelVersion version, boolean titleFlag) {
         String[] headers = excelSheetPO.getHeaders();
@@ -292,6 +318,13 @@ public class POIWriteReadExcel {
 
     }
 
+    /**
+     * 构建表标题
+     * @param sheet
+     * @param excelSheetPO
+     * @param wb
+     * @param version
+     */
     private static void createTitle(Sheet sheet, ExcelSheetPO excelSheetPO, Workbook wb, ExcelVersion version) {
     	if (excelSheetPO.getTitle() == null) {
 			return;
@@ -306,6 +339,12 @@ public class POIWriteReadExcel {
         sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, column));
     }
 
+    /**
+     * 工作表样式设置
+     * @param type
+     * @param wb
+     * @return
+     */
     private static CellStyle getStyle(String type, Workbook wb) {
 
         if (cellStyleMap.containsKey(type)) {
