@@ -1,0 +1,12 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<!-- 在我们的工程中有一些我们经常用到的CSS或者js 我们并不想每个页面都进行一次引用， -->
+	<!-- 因此我们新建一个全局的引用到我们的工程（在templates底下新建一个文件夹include同时创建includebase.html文件 -->
+	<!-- 在需要使用的页面引入即可 <head th:include="include/includebase"></head> -->
+	<link th:href="@{/bootstrap-3.3.7/css/bootstrap.css}" rel="stylesheet"/>
+	<link th:href="@{/bootstrap-3.3.7/css/bootstrap.min.css}" rel="stylesheet"/>
+	
+	
+	<script th:src="@{/js/jquery-3.3.1.js}"></script>
+	<script th:src="@{/bootstrap-3.3.7/js/bootstrap.min.js}"></script>
+
+</html>

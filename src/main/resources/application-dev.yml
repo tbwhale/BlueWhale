@@ -5,7 +5,18 @@ server :
   #配置默认访问路径
   servlet:
     context-path: /bluewhale
-    
+
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+#    prefix: /templates/
+    suffix: .html
+#    mode: HTML5
+#    encoding: UTF-8
+#    servlet:
+#      content-type: text/html
+    cache: false
+
 logback:
   #日志输出使用的项目名称
   appname: BlueWhaleDev
