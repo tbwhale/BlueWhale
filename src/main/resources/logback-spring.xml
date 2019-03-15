@@ -58,7 +58,7 @@
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!--文件路径,定义了日志的切分方式——把每一天的日志归档到一个文件中,以防止日志填满整个磁盘空间 -->
 			<!-- %i：当文件大小超过maxFileSize时，按照i进行文件滚动 -->
-			<FileNamePattern>${logdir}/${appname}.info.%d{yyyy-MM-dd}-%i.log</FileNamePattern>
+			<FileNamePattern>${logdir}/%d{yyyy-MM}/${appname}.info.%d{yyyy-MM-dd}-%i.log</FileNamePattern>
 			
 			<!--只保留最近90天的日志 -->
 			<maxHistory>90</maxHistory>
@@ -67,7 +67,7 @@
 			<!--<totalSizeCap>1GB</totalSizeCap> -->
 
 			<!-- 当日志文件超过maxFileSize指定的大小是，根据上面提到的%i进行日志文件滚动 -->
-			<!-- 注意此处配置SizeBasedTriggeringPolicy是无法实现按文件大小进行滚动的，必须配置timeBasedFileNamingAndTriggeringPolicy -->
+			<!-- 注意此处配置SizeBasedTriggeringPolicy是无法实现按文件大小进行滚动的，必须配置timeBasedFileNamingAndTriggeringPolicy才会滚动 -->
 			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<maxFileSize>500MB</maxFileSize>
 			</timeBasedFileNamingAndTriggeringPolicy>
@@ -98,7 +98,7 @@
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!--文件路径,定义了日志的切分方式——把每一天的日志归档到一个文件中,以防止日志填满整个磁盘空间 -->
 			<!-- %i：当文件大小超过maxFileSize时，按照i进行文件滚动 -->
-			<FileNamePattern>${logdir}/${appname}.error.%d{yyyy-MM-dd}-%i.log</FileNamePattern>
+			<FileNamePattern>${logdir}/%d{yyyy-MM}/${appname}.error.%d{yyyy-MM-dd}-%i.log</FileNamePattern>
 			
 			<!--只保留最近90天的日志 -->
 			<maxHistory>90</maxHistory>
@@ -107,7 +107,7 @@
 			<!--<totalSizeCap>1GB</totalSizeCap> -->
 
 			<!-- 当日志文件超过maxFileSize指定的大小是，根据上面提到的%i进行日志文件滚动 -->
-			<!-- 注意此处配置SizeBasedTriggeringPolicy是无法实现按文件大小进行滚动的，必须配置timeBasedFileNamingAndTriggeringPolicy -->
+			<!-- 注意此处配置SizeBasedTriggeringPolicy是无法实现按文件大小进行滚动的，必须配置timeBasedFileNamingAndTriggeringPolicy才会滚动 -->
 			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<maxFileSize>500MB</maxFileSize>
 			</timeBasedFileNamingAndTriggeringPolicy>
@@ -127,6 +127,7 @@
 	</appender>
 	
 	<appender name="fileAllLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!-- <Prudent>true</Prudent> -->
 		<!-- 日志名称，如果没有File 属性，那么只会使用FileNamePattern的文件路径规则 如果同时有<File>和<FileNamePattern>， -->
 		<!-- 那么当天日志是<File>，明天会自动把今天的日志改名为今天的日期。即，<File> 的日志都是当天的 -->
 		<File>${logdir}/${appname}.all.log</File>
@@ -134,7 +135,7 @@
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!--文件路径,定义了日志的切分方式——把每一天的日志归档到一个文件中,以防止日志填满整个磁盘空间 -->
 			<!-- %i：当文件大小超过maxFileSize时，按照i进行文件滚动 -->
-			<FileNamePattern>${logdir}/${appname}.all.%d{yyyy-MM-dd}-%i.log</FileNamePattern>
+			<FileNamePattern>${logdir}/%d{yyyy-MM}/${appname}.all.%d{yyyy-MM-dd}-%i.log</FileNamePattern>
 			
 			<!--只保留最近90天的日志 -->
 			<maxHistory>90</maxHistory>
@@ -143,7 +144,7 @@
 			<!--<totalSizeCap>1GB</totalSizeCap> -->
 
 			<!-- 当日志文件超过maxFileSize指定的大小是，根据上面提到的%i进行日志文件滚动 -->
-			<!-- 注意此处配置SizeBasedTriggeringPolicy是无法实现按文件大小进行滚动的，必须配置timeBasedFileNamingAndTriggeringPolicy -->
+			<!-- 注意此处配置SizeBasedTriggeringPolicy是无法实现按文件大小进行滚动的，必须配置timeBasedFileNamingAndTriggeringPolicy才会滚动 -->
 			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<maxFileSize>500MB</maxFileSize>
 			</timeBasedFileNamingAndTriggeringPolicy>
