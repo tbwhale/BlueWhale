@@ -3,29 +3,33 @@ package com.bluewhale.spring.boot.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 
  * @author curtin
  * @Date 2019-03-10 12:09:44
  */
-//@RestController
-@Controller
+@RestController
+//@Controller
 public class BlueWhaleCtrl {
 	private static final Logger log=LoggerFactory.getLogger(BlueWhaleCtrl.class);
 	
-	@RequestMapping(value = "/hello")
+	@GetMapping(value = "/hello")
 	public String hello() {
 		log.info("访问了controller");
 		return "Hello BlueWhale";
 	}
 	
-	@RequestMapping(value = "/index")
-	public String index() {
+
+	@GetMapping(value = "/index")
+	public ModelAndView index() {
 		log.info("访问了index");
-		return "/index";
+		ModelAndView modelAndView = new ModelAndView("index");
+		return modelAndView;
 	}
 	
 }
