@@ -3,7 +3,7 @@
 ---
 <!-- 小蓝鲸图标 -->
 <div align="center">  
- <img src="https://github.com/tbwhale/blue_whale/blob/master/src/main/resources/static/img/blueWhaleLogo1.1.jpg?raw=true"  />
+ <img src="https://github.com/tbwhale/blue_whale/blob/master/src/main/resources/static/img/logo/blueWhaleLogo1.1.jpg?raw=true"  />
  </br>
 </div>
 
@@ -12,11 +12,7 @@
 
 ***
 
-* [简介](#简介)
 
-
->引用
->>引用
 
 ## 简介
 
