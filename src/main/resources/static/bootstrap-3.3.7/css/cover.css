@@ -53,6 +53,8 @@ body {
 /* Padding for spacing */
 .inner {
 	padding: 30px;
+	width: 80%;
+	margin: 0 auto;
 }
 
 /*
@@ -107,6 +109,8 @@ body {
  */
 .cover {
 	padding: 0 20px;
+	width: 80%;
+	margin: 0 auto;
 }
 
 .cover .btn-lg {
@@ -149,13 +153,8 @@ body {
 
 @media ( min-width : 992px) {
 	.masthead, .mastfoot, .cover-container {
-		width: 80%;
+		width: 100%;
 	}
 }
 
-/* myCarousel */
-.myCarousel, .slide {
-	margin: 0 auto; /* div对象居中 */
-	height: 450px;
-	width: 80%;
-}
+
