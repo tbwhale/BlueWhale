@@ -2,11 +2,40 @@
 	<!-- 在我们的工程中有一些我们经常用到的CSS或者js 我们并不想每个页面都进行一次引用， -->
 	<!-- 因此我们新建一个全局的引用到我们的工程（在templates底下新建一个文件夹include同时创建includebase.html文件 -->
 	<!-- 在需要使用的页面引入即可 <head th:include="include/includebase"></head> -->
+	<link rel="icon" href="img/logo/blueWhaleLogo1.5.png"/>
 	<link th:href="@{/bootstrap-3.3.7/css/bootstrap.css}" rel="stylesheet"/>
 	<link th:href="@{/bootstrap-3.3.7/css/bootstrap.min.css}" rel="stylesheet"/>
 	<link th:href="@{/bootstrap-3.3.7/css/cover.css}" rel="stylesheet"/>
+	<link th:href="@{/bootstrap-3.3.7/css/fileinput.min.css}" rel="stylesheet"/>
+	<link th:href="@{/bootstrap-3.3.7/css/fileinput-rtl.min.css}" rel="stylesheet"/>
 	
 	<script th:src="@{/js/jquery-3.3.1.js}"></script>
 	<script th:src="@{/bootstrap-3.3.7/js/bootstrap.min.js}"></script>
+	
+	<script th:src="@{/bootstrap-3.3.7/js/fileinput.min.js}"></script>
+	<script th:src="@{/bootstrap-3.3.7/js/sortable.js}"></script>
+	<script th:src="@{/bootstrap-3.3.7/js/zh.js}"></script>
+	<script th:src="@{/bootstrap-3.3.7/js/piexif.min.js}"></script>
 
+<script type="text/javascript">
+$(document).ready(function(){
+    $(document).off('click.bs.dropdown.data-api');
+});
+$(document).ready(function(){
+    dropdownOpen();//调用
+});
+/**
+ * 鼠标划过就展开子菜单，免得需要点击才能展开
+ */
+function dropdownOpen() {
+
+    var $dropdownLi = $('li.dropdown');
+
+    $dropdownLi.mouseover(function() {
+        $(this).addClass('open');
+    }).mouseout(function() {
+        $(this).removeClass('open');
+    });
+}
+</script>
 </html>

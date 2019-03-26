@@ -22,3 +22,6 @@ logback:
   appname: BlueWhaleDev
   #日志输出文件路径
   logdir: /Users/curtin/Library/Log
+  
+bluewhale.module.uploadPath: D:/uploads/
+bluewhale.module.downloadPath: D:/downloads/
