@@ -23,9 +23,9 @@ public class BlueWhaleApplication {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		log.info("BlurWhale项目开始加载...");
+		log.info("BlueWhale项目开始加载...");
 		SpringApplication.run(BlueWhaleApplication.class, args);
-		log.info("BlurWhale项目加载完毕！"+"\n");
+		log.info("BlueWhale项目加载完毕！"+"\n");
 		log.info("\n"+
 				 "                  _oo0oo_"+"\n"+
 				 "                 o8888888o"+"\n"+

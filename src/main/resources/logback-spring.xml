@@ -58,7 +58,7 @@
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!--文件路径,定义了日志的切分方式——把每一天的日志归档到一个文件中,以防止日志填满整个磁盘空间 -->
 			<!-- %i：当文件大小超过maxFileSize时，按照i进行文件滚动 -->
-			<FileNamePattern>${logdir}/%d{yyyy-MM}/${appname}.info.%d{yyyy-MM-dd}-%i.log</FileNamePattern>
+			<FileNamePattern>${logdir}/${appname}.info.%d{yyyy-MM-dd}-%i.log</FileNamePattern>
 			
 			<!--只保留最近90天的日志 -->
 			<maxHistory>90</maxHistory>
@@ -82,7 +82,7 @@
 			<!-- %line——行数 -->
 			<!-- %msg——日志消息 -->
 			<!-- %n——平台的换行符 -->
-			<pattern>%d [%thread] %-5level %logger{36} %line : %msg%n</pattern>
+			<pattern>%d %contextName [%thread] %-5level %logger{36} %line : %msg%n</pattern>
 		</encoder>
 	</appender>
 	
@@ -98,7 +98,7 @@
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!--文件路径,定义了日志的切分方式——把每一天的日志归档到一个文件中,以防止日志填满整个磁盘空间 -->
 			<!-- %i：当文件大小超过maxFileSize时，按照i进行文件滚动 -->
-			<FileNamePattern>${logdir}/%d{yyyy-MM}/${appname}.error.%d{yyyy-MM-dd}-%i.log</FileNamePattern>
+			<FileNamePattern>${logdir}/${appname}.error.%d{yyyy-MM-dd}-%i.log</FileNamePattern>
 			
 			<!--只保留最近90天的日志 -->
 			<maxHistory>90</maxHistory>
@@ -122,7 +122,7 @@
 			<!-- %line——行数 -->
 			<!-- %msg——日志消息 -->
 			<!-- %n——平台的换行符 -->
-			<pattern>%d [%thread] %-5level %logger{36} %line : %msg%n</pattern>
+			<pattern>%d %contextName [%thread] %-5level %logger{36} %line : %msg%n</pattern>
 		</encoder>
 	</appender>
 	
@@ -135,7 +135,7 @@
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!--文件路径,定义了日志的切分方式——把每一天的日志归档到一个文件中,以防止日志填满整个磁盘空间 -->
 			<!-- %i：当文件大小超过maxFileSize时，按照i进行文件滚动 -->
-			<FileNamePattern>${logdir}/%d{yyyy-MM}/${appname}.all.%d{yyyy-MM-dd}-%i.log</FileNamePattern>
+			<FileNamePattern>${logdir}/${appname}.all.%d{yyyy-MM-dd}-%i.log</FileNamePattern>
 			
 			<!--只保留最近90天的日志 -->
 			<maxHistory>90</maxHistory>
@@ -159,7 +159,7 @@
 			<!-- %line——行数 -->
 			<!-- %msg——日志消息 -->
 			<!-- %n——平台的换行符 -->
-			<pattern>%d [%thread] %-5level %logger{36} %line : %msg%n</pattern>
+			<pattern>%d %contextName [%thread] %-5level %logger{36} %line : %msg%n</pattern>
 		</encoder>
 	</appender>
 
