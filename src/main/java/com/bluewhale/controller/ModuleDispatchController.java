@@ -1,4 +1,4 @@
-package com.bluewhale.spring.boot.controller;
+package com.bluewhale.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.bluewhale.spring.boot.common.excelwr.POIWriteReadExcel;
-import com.bluewhale.spring.boot.common.excelwr.entity.ExcelSheetPO;
-import com.bluewhale.spring.boot.common.excelwr.entity.ExcelVersion;
+import com.bluewhale.common.excelwr.POIWriteReadExcel;
+import com.bluewhale.common.excelwr.entity.ExcelSheetPO;
+import com.bluewhale.common.excelwr.entity.ExcelVersion;
 
 /**
  * 模块分发

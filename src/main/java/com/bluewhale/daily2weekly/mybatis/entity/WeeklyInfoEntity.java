@@ -1,4 +1,4 @@
-package com.bluewhale.spring.boot.daily2weekly.mybatis.entity;
+package com.bluewhale.daily2weekly.mybatis.entity;
 
 import java.util.Date;
 

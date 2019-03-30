@@ -1,4 +1,4 @@
-package com.bluewhale.spring.boot.daily2weekly.mybatis.entity;
+package com.bluewhale.daily2weekly.mybatis.entity;
 /**
  * 员工信息表
  * @author 张晓睿

@@ -1,4 +1,4 @@
-package com.bluewhale.spring.boot.common.excelwr.entity;
+package com.bluewhale.common.excelwr.entity;
 
 /**
  * Excel版本控制实体

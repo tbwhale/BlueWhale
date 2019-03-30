@@ -1,4 +1,4 @@
-package com.bluewhale.spring.boot.common.util;
+package com.bluewhale.common.util;
 /**
  * 文件处理工具类
  * @author 张晓睿

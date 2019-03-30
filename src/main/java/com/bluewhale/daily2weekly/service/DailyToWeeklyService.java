@@ -1,4 +1,4 @@
-package com.bluewhale.spring.boot.daily2weekly.service;
+package com.bluewhale.daily2weekly.service;
 
 /**
  * @author ZhangXr

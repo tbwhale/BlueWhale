@@ -1,4 +1,4 @@
-package com.bluewhale.spring.boot.common.excelwr;
+package com.bluewhale.common.excelwr;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -32,9 +32,9 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.bluewhale.spring.boot.common.excelwr.entity.ExcelSheetPO;
-import com.bluewhale.spring.boot.common.excelwr.entity.ExcelVersion;
-import com.bluewhale.spring.boot.common.util.FileUtil;
+import com.bluewhale.common.excelwr.entity.ExcelSheetPO;
+import com.bluewhale.common.excelwr.entity.ExcelVersion;
+import com.bluewhale.common.util.FileUtil;
 
 
 /**

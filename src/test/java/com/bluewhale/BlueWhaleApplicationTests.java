@@ -1,4 +1,4 @@
-package com.bluewhale.spring.boot;
+package com.bluewhale;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -7,21 +7,57 @@ server :
     context-path: /bluewhale
 
 spring:
+  #thymeleaf模板配置
   thymeleaf:
     prefix: classpath:/templates/
-#    prefix: /templates/
+    #prefix: /templates/
     suffix: .html
-#    mode: HTML5
-#    encoding: UTF-8
-#    servlet:
-#      content-type: text/html
+    #mode: HTML5
+    #encoding: UTF-8
+    #servlet:
+      #content-type: text/html
     cache: false
+    
+  #邮件发送配置
+  mail:
+    #邮件服务地址
+    host: smtp.163.com
+    #端口
+    port: 465
+    protocol: smtp
+    #编码格式
+    default-encoding: UTF-8
+    #邮箱地址
+    username: bluewhalesoft@163.com
+    #密码（授权码）
+    password: bluewhale163
+    properties:
+      smtp:
+        auth: true
+        starttls:
+          enable: true
+          required: true
+      mail:
+        smtp:
+          ssl:
+            enable: true
 
+#日志输出
 logback:
   #日志输出使用的项目名称
   appname: BlueWhaleDev
   #日志输出文件路径
   logdir: /Users/curtin/Library/Log
-  
-bluewhale.module.uploadPath: D:/uploads/
-bluewhale.module.downloadPath: D:/downloads/
+ 
+ 
+ 
+#系统常量定义
+bluewhale:
+  #邮件地址
+  mail:
+    #发件人地址
+    fromMail: bluewhalesoft@163.com
+  #Excel文件上传下载地址
+  module:
+    uploadPath: D:/uploads/
+    downloadPath: D:/downloads/

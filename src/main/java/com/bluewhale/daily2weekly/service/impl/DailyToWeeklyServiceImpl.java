@@ -1,6 +1,6 @@
-package com.bluewhale.spring.boot.daily2weekly.service.impl;
+package com.bluewhale.daily2weekly.service.impl;
 
-import com.bluewhale.spring.boot.daily2weekly.service.DailyToWeeklyService;
+import com.bluewhale.daily2weekly.service.DailyToWeeklyService;
 
 /**
  * @author ZhangXr
