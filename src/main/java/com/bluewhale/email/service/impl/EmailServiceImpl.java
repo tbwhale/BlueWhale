@@ -69,7 +69,6 @@ public class EmailServiceImpl implements EmailService {
 
 	/**
 	 * 发送含附件邮件
-	 * @param deliver 发件人地址
 	 * @param receiver 接收者邮件地址
 	 * @param carbonCopy 抄送者邮件地址(没有为null)
 	 * @param subject 主题
@@ -94,7 +93,6 @@ public class EmailServiceImpl implements EmailService {
 
     /**
 	 * 发送模板邮件
-	 * @param deliver 发件人地址
 	 * @param receiver 接收者邮件地址
 	 * @param carbonCopy 抄送者邮件地址(没有为null)
 	 * @param subject 主题

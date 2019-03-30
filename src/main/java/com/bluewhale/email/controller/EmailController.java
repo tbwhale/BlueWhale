@@ -30,7 +30,7 @@ public class EmailController {
 	
 	/**
 	 * 发送普通邮件
-	 * @return
+	 * @return String
 	 */
 	@RequestMapping("/sendSimpleEmail")
 	@ResponseBody
@@ -51,7 +51,7 @@ public class EmailController {
 	
 	/**
 	 * 发送HTML邮件
-	 * @return
+	 * @return String
 	 */
 	@RequestMapping("/sendHtmlEmail")
 	@ResponseBody
@@ -73,7 +73,7 @@ public class EmailController {
 	
 	/**
 	 * 发送含附件邮件
-	 * @return
+	 * @return String
 	 */
 	@RequestMapping("/sendAttachmentFileEmail")
 	@ResponseBody
@@ -99,7 +99,7 @@ public class EmailController {
 	
 	/**
 	 * 发送模板邮件
-	 * @return
+	 * @return String
 	 */
 	@RequestMapping("/sendTemplateEmail")
 	@ResponseBody

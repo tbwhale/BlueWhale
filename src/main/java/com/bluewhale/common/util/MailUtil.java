@@ -19,8 +19,7 @@ import org.thymeleaf.context.Context;
 
 /**
  * 邮件发送
- * @author curtin
- * @date 2019-03-30 12:21:58
+ * @author curtin 2019-03-30 12:21:58
  * @version v1.0.0
  */
 @Component

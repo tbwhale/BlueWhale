@@ -4,8 +4,7 @@ import java.io.Serializable;
 
 /**
  * 消息定义
- * @author curtin
- * @date 2019-03-30 14:46:40
+ * @author curtin 2019-03-30 14:46:40
  */
 public class Messages implements Serializable{
 
