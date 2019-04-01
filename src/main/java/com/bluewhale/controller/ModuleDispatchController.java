@@ -75,6 +75,7 @@ public class ModuleDispatchController {
 		System.out.println(string);
 		String[] strings = string.split(",");
 		for (int i = 0; i < strings.length; i++) {
+			
 		}
 		
 		return "200";
