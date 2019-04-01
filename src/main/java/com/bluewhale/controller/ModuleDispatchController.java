@@ -2,11 +2,15 @@ package com.bluewhale.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,9 +35,8 @@ public class ModuleDispatchController {
 	@Value("${bluewhale.module.downloadPath}")
 	private String downloadPath;
 	
-	@RequestMapping("/moduleHome")
+	@RequestMapping("/excelWR")
 	public ModelAndView moduleHome() {
-		System.out.println("----");
 		ModelAndView mView = new ModelAndView("module/module");
 		return mView;
 	}
@@ -46,27 +49,33 @@ public class ModuleDispatchController {
 		}
 		
 		File dirFile = new File(uploadPath);
-		File dirFile2 = new File(downloadPath);
+		
 		if (!dirFile.exists()) {
 			dirFile.mkdir();
 		}
-		if (!dirFile2.exists()) {
-			dirFile2.mkdir();
-		}
+		
 		String filename = file.getOriginalFilename();
 		File serverFile = new File(uploadPath + filename);
-		String outFilename = "批处理.xlsx";
+		
 		try {
 			file.transferTo(serverFile);
-			List<ExcelSheetPO> readExcel = POIWriteReadExcel.readExcel(uploadPath+serverFile.getName(), 10, 10);
-			System.out.println(readExcel.toString());
-			POIWriteReadExcel.createWorkbookAtDisk(ExcelVersion.V2003, readExcel, downloadPath+outFilename);
 		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
 			return "400";
 		}
 		
-		
+		return "200";
+	}
+	
+	@RequestMapping("/conform")
+	public String batchWR(@RequestParam("team")String team, @RequestParam("start")String start, @RequestParam("end")String end) {
+		File dirFile = new File(uploadPath);
+		File[] listFiles = dirFile.listFiles();
+		String string = Arrays.toString(listFiles);
+		System.out.println(string);
+		String[] strings = string.split(",");
+		for (int i = 0; i < strings.length; i++) {
+		}
 		
 		return "200";
 	}

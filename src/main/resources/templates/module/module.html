@@ -49,13 +49,33 @@
             </div>
           </div>
 
-          <div class="inner cover" style="margin-bottom: 0">
-<!--           	<form action="/bluewhale/module/upload" method="post" entype="multipart/form-data"> -->
-            	<!-- <input id="input-id" name="input2" type="file" class="file" multiple="multiple" lang="zh"> -->
+<!--           <div class="inner cover" style="margin-bottom: 0">
+          	<form action="/bluewhale/module/upload" method="post" entype="multipart/form-data">
+            	<input id="input-id" name="input2" type="file" class="file" multiple="multiple" lang="zh">
             	<input id="input-id" name="file" multiple type="file" data-show-caption="true">
-<!--             </form> -->
-          </div>
+            </form>
+          </div> -->
           
+          <div class="inner cover" style="margin-bottom: 0">
+            <input id="input-id" name="file" multiple type="file" data-show-caption="true">
+			<hr />
+			<h2>整合周报</h2>
+			<div>
+				<input type="text" placeholder="所属项目组" id="conformTeam" style="color: #000"/>
+				<input type="text" placeholder="开始日期" id="conformStart" style="color: #000"/>
+                <input type="text" placeholder="终止日期" id="conformEnd" style="color: #000"/>
+                <input id="conform" type="submit" class="btn btn-lg btn-default" value="整合"/>
+			</div>
+				
+			<hr />
+			<h2>下载周报</h2>
+			<form action="/bluewhale/module/download" method="post">
+				<input type="text" placeholder="所属项目组" name="team" style="color: #000"/>
+				<input type="text" placeholder="开始日期" name="start" style="color: #000"/>
+                <input type="text" placeholder="终止日期" name="end" style="color: #000"/>
+                <input id="download" type="submit" class="btn btn-lg btn-default" value="下载"/>
+			</form>
+          </div>
 
           <div class="mastfoot" >
             
@@ -72,6 +92,29 @@
     </div>
 	
 <script>
+
+	$('#conform').click(function() {
+		   $.ajax ({
+			   type: 'POST',
+			   url: '/bluewhale/module/conform',
+			   data: {
+				   team: $('#conformTeam').val(),
+				   start: $('#conformStart').val(),
+				   end: $('#conformEnd').val()
+			   },
+			   dataType: 'json',
+			   async: false,
+			   success: function(data){
+				   var flag = eval(data);
+				   if("200"==flag) {
+					   console.log("整合成功");
+				   } else {
+					   console.log("整合失败");
+				   }
+			   }
+			   
+		   });
+	})
    $(function () {
        initFileInput("input-id");
    })
@@ -87,7 +130,7 @@
            uploadAsync: true, //默认异步上传
            showUpload: true, //是否显示上传按钮
            showRemove : true, //显示移除按钮
-           showPreview : true, //是否显示预览
+           showPreview : false, //是否显示预览
            showCaption: false,//是否显示标题
            browseClass: "btn btn-primary", //按钮样式
            //dropZoneEnabled: true,//是否显示拖拽区域
@@ -116,5 +159,5 @@
 	}
 </script>
 
-  </body>
+</body>
 </html>
