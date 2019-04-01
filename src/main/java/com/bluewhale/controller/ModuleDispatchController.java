@@ -71,11 +71,9 @@ public class ModuleDispatchController {
 	public String batchWR(@RequestParam("team")String team, @RequestParam("start")String start, @RequestParam("end")String end) {
 		File dirFile = new File(uploadPath);
 		File[] listFiles = dirFile.listFiles();
-		String string = Arrays.toString(listFiles);
-		System.out.println(string);
-		String[] strings = string.split(",");
-		for (int i = 0; i < strings.length; i++) {
-			
+		for (int i = 0; i < listFiles.length; i++) {
+			String name = listFiles[i].getName();
+			System.out.println(name);
 		}
 		
 		return "200";
