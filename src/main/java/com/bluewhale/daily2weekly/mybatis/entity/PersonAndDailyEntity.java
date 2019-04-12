@@ -14,7 +14,7 @@ public class PersonAndDailyEntity {
 
 	private String personName;
 	
-	private List<List<ExcelSheetPO>> dailyDataLists;
+	private List<ExcelSheetPO> dailyDataLists;
 
 	public String getPersonName() {
 		return personName;
@@ -24,11 +24,11 @@ public class PersonAndDailyEntity {
 		this.personName = personName;
 	}
 
-	public List<List<ExcelSheetPO>> getDailyDataLists() {
+	public List<ExcelSheetPO> getDailyDataLists() {
 		return dailyDataLists;
 	}
 
-	public void setDailyDataLists(List<List<ExcelSheetPO>> dailyDataLists) {
+	public void setDailyDataLists(List<ExcelSheetPO> dailyDataLists) {
 		this.dailyDataLists = dailyDataLists;
 	}
 

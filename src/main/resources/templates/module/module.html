@@ -57,20 +57,20 @@
           </div> -->
           
           <div class="inner cover" style="margin-bottom: 0">
-            <input id="input-id" name="file" multiple type="file" data-show-caption="true">
+            <input id="input_id" name="file" multiple type="file" data-show-caption="true">
 			<hr />
 			<h2>整合周报</h2>
 			<div>
 				<input type="text" placeholder="所属项目组" id="conformTeam" style="color: #000"/>
-				<input type="text" placeholder="开始日期" id="conformStart" style="color: #000"/>
-                <input type="text" placeholder="终止日期" id="conformEnd" style="color: #000"/>
+				<input type="text" class="date" placeholder="开始日期" id="conformStart" style="color: #000"/>
+                <input type="text" class="date" placeholder="终止日期" id="conformEnd" style="color: #000"/>
                 <input id="conform" type="submit" class="btn btn-lg btn-default" value="整合"/>
 			</div>
 				
 			<hr />
 			<h2>下载周报</h2>
 			<form action="/bluewhale/module/download" method="post">
-				<input type="text" placeholder="所属项目组" name="team" style="color: #000"/>
+				<input type="text" placeholder="所属项目组" name="team" style="color: #000" />
 				<input type="text" placeholder="开始日期" name="start" style="color: #000"/>
                 <input type="text" placeholder="终止日期" name="end" style="color: #000"/>
                 <input id="download" type="submit" class="btn btn-lg btn-default" value="下载"/>
@@ -92,31 +92,44 @@
     </div>
 	
 <script>
+    
+	$('.date').datetimepicker({//选择年月日
+　　　　　　format: 'yyyy-mm-dd',
+　　　　　　language: 'zh-CN',
+　　　　　　weekStart: 1,
+　　　　　　autoclose: 1,
+　　　　　　todayHighlight: 1,
+　　　　　　startView: 2,
+　　　　　　minView: 2,  //Number, String. 默认值：0, 'hour'，日期时间选择器所能够提供的最精确的时间选择视图。
+　　　　　　clearBtn:true,//清除按钮
+        
+　　　　　　forceParse: 0
+　　　　});
 
 	$('#conform').click(function() {
-		   $.ajax ({
-			   type: 'POST',
-			   url: '/bluewhale/module/conform',
-			   data: {
-				   team: $('#conformTeam').val(),
-				   start: $('#conformStart').val(),
-				   end: $('#conformEnd').val()
-			   },
-			   dataType: 'json',
-			   async: false,
-			   success: function(data){
-				   var flag = eval(data);
-				   if("200"==flag) {
-					   console.log("整合成功");
-				   } else {
-					   console.log("整合失败");
-				   }
+	   $.ajax ({
+		   type: 'POST',
+		   url: '/bluewhale/module/conform',
+		   data: {
+			   team: $('#conformTeam').val(),
+			   start: $('#conformStart').val(),
+			   end: $('#conformEnd').val()
+		   },
+		   dataType: 'json',
+		   async: false,
+		   success: function(data){
+			   var flag = eval(data);
+			   if("200"==flag) {
+				   console.log("整合成功");
+			   } else {
+				   console.log("整合失败");
 			   }
-			   
-		   });
+		   }
+		   
+	   });
 	})
    $(function () {
-       initFileInput("input-id");
+       initFileInput("input_id");
    })
 
    function initFileInput(ctrlName) {

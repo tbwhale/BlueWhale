@@ -1,12 +1,14 @@
 package com.bluewhale.controller;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bluewhale.common.excelwr.POIWriteReadExcel;
 import com.bluewhale.common.excelwr.entity.ExcelSheetPO;
 import com.bluewhale.common.excelwr.entity.ExcelVersion;
+import com.bluewhale.daily2weekly.service.DailyToWeeklyService;
 
 /**
  * 模块分发
@@ -34,6 +37,8 @@ public class ModuleDispatchController {
 	private String uploadPath;
 	@Value("${bluewhale.module.downloadPath}")
 	private String downloadPath;
+	@Autowired
+	private DailyToWeeklyService service;
 	
 	@RequestMapping("/excelWR")
 	public ModelAndView moduleHome() {
@@ -68,12 +73,14 @@ public class ModuleDispatchController {
 	}
 	
 	@RequestMapping("/conform")
-	public String batchWR(@RequestParam("team")String team, @RequestParam("start")String start, @RequestParam("end")String end) {
-		File dirFile = new File(uploadPath);
-		File[] listFiles = dirFile.listFiles();
-		for (int i = 0; i < listFiles.length; i++) {
-			String name = listFiles[i].getName();
-			System.out.println(name);
+	public String batchWR(@RequestParam("team")String team, @RequestParam("start")String start, @RequestParam("end")String end) throws Exception {
+		System.out.println(team);
+		System.out.println(start);
+		System.out.println(end);
+		try {
+			service.conformWeeklyInfo(uploadPath,team,start,end);
+		} catch (Exception e) {
+			return "400";
 		}
 		
 		return "200";
