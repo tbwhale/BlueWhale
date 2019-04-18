@@ -80,7 +80,7 @@ public class ModuleDispatchController {
 		try {
 			service.conformWeeklyInfo(uploadPath,team,start,end);
 		} catch (Exception e) {
-			return "400";
+			e.printStackTrace();
 		}
 		
 		return "200";

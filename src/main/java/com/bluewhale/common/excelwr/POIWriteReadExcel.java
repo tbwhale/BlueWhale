@@ -27,6 +27,7 @@ import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.WorkbookUtil;
@@ -50,6 +51,9 @@ public class POIWriteReadExcel {
     private final static String STYLE_TITLE = "title";
     //数据样式
     private final static String STYLE_DATA = "data";
+    //长文本样式
+    private final static String STYLE_LONGDATA = "longData";
+    
     //存储样式
     private static final HashMap<String, CellStyle> cellStyleMap = new HashMap<String, CellStyle>();
 
@@ -228,8 +232,17 @@ public class POIWriteReadExcel {
      * @param version
      */
     private static void buildSheetData(Workbook wb, Sheet sheet, ExcelSheetPO excelSheetPO, ExcelVersion version) {
-        sheet.setDefaultRowHeight((short) 400);
-        sheet.setDefaultColumnWidth((short) 20);
+        sheet.setColumnWidth(0, 4608);
+        sheet.setColumnWidth(1, 2560);
+        sheet.setColumnWidth(2, 17920);
+        sheet.setColumnWidth(3, 3328);
+        sheet.setColumnWidth(4, 3328);
+        sheet.setColumnWidth(5, 5120);
+        sheet.setColumnWidth(6, 1920);
+        sheet.setColumnWidth(7, 2560);
+        sheet.setColumnWidth(8, 5888);
+//    	sheet.setDefaultRowHeight((short) 400);
+//      sheet.setDefaultColumnWidth((short) 20);
         
         boolean titleFlag = false;
         boolean headersFlag = false;
@@ -282,7 +295,13 @@ public class POIWriteReadExcel {
             Row row = sheet.createRow(rowStart + i);
             for (int j = 0; j < values.size() && j < version.getMaxColumn(); j++) {
                 Cell cell = row.createCell(j);
-                cell.setCellStyle(getStyle(STYLE_DATA, wb));
+                String string = values.get(j).toString();
+                if (string != null && string.length() > 10) {
+					cell.setCellStyle(getStyle(STYLE_LONGDATA, wb));
+				} else {
+					cell.setCellStyle(getStyle(STYLE_DATA, wb));
+				}
+                
                 cell.setCellValue(values.get(j).toString());
             }
         }
@@ -329,14 +348,24 @@ public class POIWriteReadExcel {
     	if (excelSheetPO.getTitle() == null) {
 			return;
 		}
+    	// 限制最大列数
+        int column = excelSheetPO.getHeaders().length > version.getMaxColumn() ? version.getMaxColumn()
+                : excelSheetPO.getHeaders().length;
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, column-1));
         Row titleRow = sheet.createRow(0);
-        Cell titleCel = titleRow.createCell(0);
-        titleCel.setCellValue(excelSheetPO.getTitle());
-        titleCel.setCellStyle(getStyle(STYLE_TITLE, wb));
-        // 限制最大列数
-        int column = excelSheetPO.getDataList().size() > version.getMaxColumn() ? version.getMaxColumn()
-                : excelSheetPO.getDataList().size();
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, column));
+        Cell createCell = titleRow.createCell(0);
+        CellStyle titleCel = wb.createCellStyle();
+        titleCel.setAlignment(HorizontalAlignment.CENTER);
+        titleCel.setVerticalAlignment(VerticalAlignment.CENTER);
+        createCell.setCellValue(excelSheetPO.getTitle());
+        for (int i = 1; i < column; i++) {
+        	Cell nullCell = titleRow.createCell(i);
+        	nullCell.setCellValue("");
+		}
+        titleCel.cloneStyleFrom(getStyle(STYLE_TITLE, wb));
+        
+        
+		
     }
 
     /**
@@ -359,25 +388,31 @@ public class POIWriteReadExcel {
         style.setWrapText(true);
 
         if (STYLE_HEADER == type) {
-            style.setAlignment(HorizontalAlignment.CENTER);
+        	style.setAlignment(HorizontalAlignment.CENTER);
             Font font = wb.createFont();
-            font.setFontHeightInPoints((short) 16);
+            font.setFontHeightInPoints((short) 10);
             font.setBold(true);
-            style.setFont(font);
-        } else if (STYLE_TITLE == type) {
-            style.setAlignment(HorizontalAlignment.CENTER);
-            Font font = wb.createFont();
-            font.setFontHeightInPoints((short) 18);
-            font.setBold(true);
-            style.setFont(font);
-        } else if (STYLE_DATA == type) {
-            style.setAlignment(HorizontalAlignment.LEFT);
-            Font font = wb.createFont();
-            font.setFontHeightInPoints((short) 12);
             style.setFont(font);
             style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-            style.setFillForegroundColor(HSSFColor.HSSFColorPredefined.BRIGHT_GREEN.getIndex());
-        }
+            style.setFillForegroundColor(HSSFColor.HSSFColorPredefined.LIGHT_YELLOW.getIndex());
+        } else if (STYLE_TITLE == type) {
+            Font font = wb.createFont();
+            font.setFontHeightInPoints((short) 10);
+            font.setBold(true);
+            style.setFont(font);
+            style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            style.setFillForegroundColor(HSSFColor.HSSFColorPredefined.GREY_80_PERCENT.getIndex());
+        } else if (STYLE_DATA == type) {
+            style.setAlignment(HorizontalAlignment.CENTER);
+            Font font = wb.createFont();
+            font.setFontHeightInPoints((short) 10);
+            style.setFont(font);
+        } else if (STYLE_LONGDATA == type) {
+        	style.setAlignment(HorizontalAlignment.LEFT);
+            Font font = wb.createFont();
+            font.setFontHeightInPoints((short) 10);
+            style.setFont(font);
+		}
         cellStyleMap.put(type, style);
         return style;
     }

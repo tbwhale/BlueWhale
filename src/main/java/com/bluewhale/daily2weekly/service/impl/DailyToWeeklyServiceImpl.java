@@ -7,12 +7,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.bluewhale.common.excelwr.ExcelSheetFormat;
 import com.bluewhale.common.excelwr.POIWriteReadExcel;
 import com.bluewhale.common.excelwr.entity.ExcelSheetPO;
 import com.bluewhale.common.excelwr.entity.ExcelStartEndDate;
+import com.bluewhale.common.excelwr.entity.ExcelVersion;
 import com.bluewhale.daily2weekly.mybatis.entity.PersonAndDailyEntity;
 import com.bluewhale.daily2weekly.service.DailyToWeeklyService;
 import com.bluewhale.daily2weekly.temp.WeekTemp;
@@ -24,6 +26,9 @@ import com.bluewhale.daily2weekly.temp.WeekTemp;
  */
 @Service
 public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
+	
+	@Value("${bluewhale.module.downloadPath}")
+	public String downloadPath;
 	
 	@Override
 	public void conformWeeklyInfo(String uploadPath, String team, String start, String end) throws FileNotFoundException, IOException {
@@ -59,16 +64,18 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 				allDailyEntities.add(entity);
 			}
 		}
+		//周报整合
+		List<ExcelSheetPO> weeklyInfo = weeklyFormat(allDailyEntities, team, start, end);
 		
-		System.out.println(allDailyEntities);
-//		weeklyFormat(allDailyEntities, team, start, end);
+		POIWriteReadExcel.createWorkbookAtDisk(ExcelVersion.V2003, weeklyInfo, downloadPath+team+".xlsx");
+		
+		System.out.println(downloadPath+team);
 	}
 	
 	@Override
 	public List<ExcelSheetPO> weeklyFormat(List<PersonAndDailyEntity> lists,String team,String start,String end) {
 		List<ExcelSheetPO> resultList = new ArrayList<ExcelSheetPO>();
 		List<List<Object>> dataLists = new ArrayList<List<Object>>();
-		
 		ExcelSheetPO lastWeekSheet = new ExcelSheetPO();
 		lastWeekSheet.setSheetName("上周工作内容");
 		lastWeekSheet.setTitle("上周已经完成的任务总结");
@@ -78,12 +85,34 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 		for (PersonAndDailyEntity personAndDailyEntity : lists) {
 			String personName = personAndDailyEntity.getPersonName();
 			List<ExcelSheetPO> dailyDataLists = personAndDailyEntity.getDailyDataLists();
-			
-			
+			for (ExcelSheetPO excelSheetPO : dailyDataLists) {
+				for (int i = 0; i < excelSheetPO.getDataList().size(); i++) {
+					List<List<Object>> dataList = excelSheetPO.getDataList();
+					List<Object> rowDataList = new ArrayList<Object>();
+					rowDataList.add(dataList.get(i).get(0));
+					rowDataList.add(dataList.get(i).get(1));
+					rowDataList.add(dataList.get(i).get(2));
+					rowDataList.add(start);
+					rowDataList.add(end);
+					double worktime = Double.parseDouble(String.valueOf(dataList.get(i).get(3)));
+					rowDataList.add(worktime/8);
+					rowDataList.add(personName);
+					rowDataList.add("");
+					rowDataList.add("");
+					dataLists.add(rowDataList);
+				}
+			}
 		}
+		lastWeekSheet.setDataList(dataLists);
+		ExcelSheetPO nextWeekPlanSheet = new ExcelSheetPO();
+		nextWeekPlanSheet.setSheetName("下周工作计划");
+		nextWeekPlanSheet.setTitle("本周一至五的工作计划安排");
+		nextWeekPlanSheet.setHeaders(WeekTemp.next_week_plan);
 		
+		resultList.add(lastWeekSheet);
+		resultList.add(nextWeekPlanSheet);
 		
-		return null;
+		return resultList;
 		
 	}
 	
@@ -96,6 +125,8 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 	@Override
 	public List<ExcelSheetPO> dailyFormat(List<ExcelSheetPO> list,String start,String end) {
 		
+		List<ExcelSheetPO> resultDaily = new ArrayList<ExcelSheetPO>();
+		
 		for (ExcelSheetPO excelSheetPO : list) {
 			String sheetname = ExcelSheetFormat.sheetNameFormat(excelSheetPO.getSheetName());
 			if (Integer.parseInt(sheetname) < Integer.parseInt(start) || 
@@ -106,6 +137,9 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 			List<List<Object>> resultDataList = new ArrayList<List<Object>>();
 			for (int i = 1; i < dataList.size(); i++) {
 				List<Object> weekly = new LinkedList<Object>();
+				if (dataList.get(i).get(3) == null || "".equals(dataList.get(i).get(3))) {
+					continue;
+				}
 				weekly.add(dataList.get(i).get(6));
 				weekly.add(dataList.get(i).get(2));
 				weekly.add(dataList.get(i).get(3));
@@ -114,12 +148,10 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 			}
 			
 			excelSheetPO.setDataList(resultDataList);
+			resultDaily.add(excelSheetPO);
 		}
 		
-		return list;
+		return resultDaily;
 	}
 
-	
-	
-	
 }
