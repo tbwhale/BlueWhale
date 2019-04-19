@@ -297,7 +297,7 @@ public class POIWriteReadExcel {
                 Cell cell = row.createCell(j);
                 String string = values.get(j).toString();
                 if (string != null && string.length() > 10) {
-					cell.setCellStyle(getStyle(STYLE_LONGDATA, wb));
+                	cell.setCellStyle(getStyle(STYLE_LONGDATA, wb));
 				} else {
 					cell.setCellStyle(getStyle(STYLE_DATA, wb));
 				}
@@ -364,8 +364,6 @@ public class POIWriteReadExcel {
 		}
         titleCel.cloneStyleFrom(getStyle(STYLE_TITLE, wb));
         
-        
-		
     }
 
     /**
@@ -389,28 +387,37 @@ public class POIWriteReadExcel {
 
         if (STYLE_HEADER == type) {
         	style.setAlignment(HorizontalAlignment.CENTER);
+        	style.setVerticalAlignment(VerticalAlignment.CENTER);
             Font font = wb.createFont();
             font.setFontHeightInPoints((short) 10);
             font.setBold(true);
             style.setFont(font);
+            font.setFontName("宋体");
             style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
             style.setFillForegroundColor(HSSFColor.HSSFColorPredefined.LIGHT_YELLOW.getIndex());
         } else if (STYLE_TITLE == type) {
+        	style.setAlignment(HorizontalAlignment.CENTER);
+        	style.setVerticalAlignment(VerticalAlignment.CENTER);
             Font font = wb.createFont();
             font.setFontHeightInPoints((short) 10);
             font.setBold(true);
+            font.setFontName("宋体");
             style.setFont(font);
             style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
             style.setFillForegroundColor(HSSFColor.HSSFColorPredefined.GREY_80_PERCENT.getIndex());
         } else if (STYLE_DATA == type) {
             style.setAlignment(HorizontalAlignment.CENTER);
+            style.setVerticalAlignment(VerticalAlignment.CENTER);
             Font font = wb.createFont();
             font.setFontHeightInPoints((short) 10);
+            font.setFontName("宋体");
             style.setFont(font);
         } else if (STYLE_LONGDATA == type) {
         	style.setAlignment(HorizontalAlignment.LEFT);
+        	style.setVerticalAlignment(VerticalAlignment.CENTER);
             Font font = wb.createFont();
             font.setFontHeightInPoints((short) 10);
+            font.setFontName("宋体");
             style.setFont(font);
 		}
         cellStyleMap.put(type, style);

@@ -74,9 +74,6 @@ public class ModuleDispatchController {
 	
 	@RequestMapping("/conform")
 	public String batchWR(@RequestParam("team")String team, @RequestParam("start")String start, @RequestParam("end")String end) throws Exception {
-		System.out.println(team);
-		System.out.println(start);
-		System.out.println(end);
 		try {
 			service.conformWeeklyInfo(uploadPath,team,start,end);
 		} catch (Exception e) {

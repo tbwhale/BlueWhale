@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -27,11 +29,16 @@ import com.bluewhale.daily2weekly.temp.WeekTemp;
 @Service
 public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 	
+	private static Logger logger = LoggerFactory.getLogger(DailyToWeeklyServiceImpl.class);
+	
 	@Value("${bluewhale.module.downloadPath}")
-	public String downloadPath;
+	private String downloadPath;
 	
 	@Override
 	public void conformWeeklyInfo(String uploadPath, String team, String start, String end) throws FileNotFoundException, IOException {
+		
+		logger.info("整合周报开始");
+		
 		List<PersonAndDailyEntity> allDailyEntities = new ArrayList<PersonAndDailyEntity>();
 		
 		File dirFile = new File(uploadPath);
@@ -66,10 +73,14 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 		}
 		//周报整合
 		List<ExcelSheetPO> weeklyInfo = weeklyFormat(allDailyEntities, team, start, end);
+		File downloadDir = new File(downloadPath);
 		
-		POIWriteReadExcel.createWorkbookAtDisk(ExcelVersion.V2003, weeklyInfo, downloadPath+team+".xlsx");
+		if (!downloadDir.exists()) {
+			downloadDir.mkdir();
+		}
+		POIWriteReadExcel.createWorkbookAtDisk(ExcelVersion.V2003, weeklyInfo, downloadDir+"/"+team+".xlsx");
 		
-		System.out.println(downloadPath+team);
+		logger.info("整合周报结束");
 	}
 	
 	@Override
@@ -84,11 +95,16 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 		}
 		for (PersonAndDailyEntity personAndDailyEntity : lists) {
 			String personName = personAndDailyEntity.getPersonName();
+			logger.equals(personName);
 			List<ExcelSheetPO> dailyDataLists = personAndDailyEntity.getDailyDataLists();
 			for (ExcelSheetPO excelSheetPO : dailyDataLists) {
 				for (int i = 0; i < excelSheetPO.getDataList().size(); i++) {
 					List<List<Object>> dataList = excelSheetPO.getDataList();
 					List<Object> rowDataList = new ArrayList<Object>();
+					if (dataList.get(i).get(2) == null || "".equals(dataList.get(i).get(2))
+							|| dataList.get(i).get(3) == null || "".equals(dataList.get(i).get(3))) {
+						continue;
+					}
 					rowDataList.add(dataList.get(i).get(0));
 					rowDataList.add(dataList.get(i).get(1));
 					rowDataList.add(dataList.get(i).get(2));

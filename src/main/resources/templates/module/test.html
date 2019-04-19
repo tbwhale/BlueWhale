@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="utf-8">
+	<title>BlueWhale</title>
+	<head th:include="include/includebase" />
 </head>
 <body>
-	<div>
-		<input type="text" placeholder="请输入账号" class="userId">
-		<input type="text" placeholder="请输入密码" class="userPwd"> 
-		<a href="#" class="btn btn-lg btn-default">Sign ins</a>
-	</div>
-	
+	<div class="col-lg-3 bs-docs-sidebar">
+        <div class="list-group">
+            <div class="list-group-item active text-center">会员中心</div>
+            <a href="#" class="list-group-item  list-group-item-danger">购物车</a>
+            <a href="#" class="list-group-item  list-group-item-danger">我的订单</a>
+            <a href="{:U('Mem/profile')}" class="list-group-item  list-group-item-danger">修改密码</a>
+            <a href="{:U('Mem/logout')}" class="list-group-item  list-group-item-danger">退出</a>
+        </div>        
+    </div>
+
 </body>
 </html>
