@@ -136,7 +136,7 @@ public class POIWriteReadExcel {
             DecimalFormat df = new DecimalFormat("0");// 格式化 number
             // String
             // 字符
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 格式化日期字符串
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");// 格式化日期字符串
             DecimalFormat nf = new DecimalFormat("0.00");// 格式化数字
             switch (cell.getCellTypeEnum()) {
             case STRING:

@@ -40,8 +40,8 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 		logger.info("整合周报开始");
 		
 		List<PersonAndDailyEntity> allDailyEntities = new ArrayList<PersonAndDailyEntity>();
-		
-		File dirFile = new File(uploadPath);
+		String readpath = uploadPath;
+		File dirFile = new File(readpath);
 		File[] listFiles = dirFile.listFiles();
 		for (int i = 0; i < listFiles.length; i++) {
 			String name = listFiles[i].getName();
@@ -50,7 +50,7 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 				continue;
 			}
 			ExcelStartEndDate checkDate = ExcelSheetFormat.checkDate(name,start,end);
-			List<ExcelSheetPO> readExcel = POIWriteReadExcel.readExcel(uploadPath+name, null, null);
+			List<ExcelSheetPO> readExcel = POIWriteReadExcel.readExcel(readpath+name, null, null);
 			List<ExcelSheetPO> list = dailyFormat(readExcel,checkDate.getStartDate(),checkDate.getEndDate());
 			boolean existFlag = false;
 			if (!allDailyEntities.isEmpty()) {
@@ -73,7 +73,9 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 		}
 		//周报整合
 		List<ExcelSheetPO> weeklyInfo = weeklyFormat(allDailyEntities, team, start, end);
-		File downloadDir = new File(downloadPath);
+		
+		String downpath = downloadPath+team;
+		File downloadDir = new File(downpath);
 		
 		if (!downloadDir.exists()) {
 			downloadDir.mkdir();
