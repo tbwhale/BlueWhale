@@ -3,6 +3,9 @@ package com.bluewhale.controller;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bluewhale.common.excelwr.POIWriteReadExcel;
 import com.bluewhale.common.excelwr.entity.ExcelSheetPO;
 import com.bluewhale.common.excelwr.entity.ExcelVersion;
+import com.bluewhale.common.util.Messages;
 import com.bluewhale.daily2weekly.service.DailyToWeeklyService;
 
 /**
@@ -42,10 +46,14 @@ public class ModuleDispatchController {
 	
 	@RequestMapping("/excelWR")
 	public ModelAndView moduleHome() {
+		ModelAndView mView = new ModelAndView("module/test");
+		return mView;
+	}
+	@RequestMapping("/weekconfirm")
+	public ModelAndView weekconfirm() {
 		ModelAndView mView = new ModelAndView("module/module");
 		return mView;
 	}
-	
 	@PostMapping("/upload")
 	@ResponseBody
 	public String upload(MultipartFile file) {
@@ -73,13 +81,27 @@ public class ModuleDispatchController {
 	}
 	
 	@RequestMapping("/conform")
-	public String batchWR(@RequestParam("team")String team, @RequestParam("start")String start, @RequestParam("end")String end) throws Exception {
+	@ResponseBody
+	public Messages batchWR(@RequestParam("team")String team, @RequestParam("start")String start, @RequestParam("end")String end) throws Exception {
+		Messages messages = new Messages();
+		String errorMessage = null;
+		messages.setMsgCode("200");
+		messages.setMsgDesc("整合成功");
 		try {
 			service.conformWeeklyInfo(uploadPath,team,start,end);
 		} catch (Exception e) {
 			e.printStackTrace();
+			Writer writer = new StringWriter();
+            PrintWriter printWriter = new PrintWriter(writer);
+            e.printStackTrace(printWriter);
+            errorMessage = e.getMessage();
 		}
 		
-		return "200";
+		if (errorMessage != null) {
+			messages.setMsgCode("500");
+			messages.setMsgDesc(errorMessage);
+		}
+		
+		return messages;
 	}
 }

@@ -10,6 +10,7 @@
     <title>Blue Whale</title>
 
     <head th:include="include/includebase" />
+    <link th:href="@{/bootstrap-3.3.7/css/cover.css}" rel="stylesheet"/>
     <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
     <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
     <!--[if lt IE 9]>
@@ -24,38 +25,6 @@
 
         <div class="cover-container">
 
-          <div class="masthead clearfix" >
-            <div class="inner">
-              <h2 class="masthead-brand">Blue Whale</h2>
-              <nav>
-                <ul class="nav masthead-nav">
-                  <li><a href="/bluewhale">Home</a></li>
-                  <li class="dropdown" >
-		              <a href="/bluewhale/module/excelWR" class="dropdown-toggle" data-toggle="dropdown">
-		                  Features
-		                  <b class="caret"></b>
-		              </a>
-		              <ul class="dropdown-menu" >
-		                  <li><a href="/bluewhale/module/excelWR">日报系统</a></li>
-		                  <li class="divider"></li>
-		                  <li><a href="#">分离的链接</a></li>
-		                  <li class="divider"></li>
-		                  <li><a href="#">另一个分离的链接</a></li>
-		              </ul>
-		          </li>
-                  <li><a href="#">Contact</a></li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-
-<!--           <div class="inner cover" style="margin-bottom: 0">
-          	<form action="/bluewhale/module/upload" method="post" entype="multipart/form-data">
-            	<input id="input-id" name="input2" type="file" class="file" multiple="multiple" lang="zh">
-            	<input id="input-id" name="file" multiple type="file" data-show-caption="true">
-            </form>
-          </div> -->
-          
           <div class="inner cover" style="margin-bottom: 0">
             <input id="input_id" name="file" multiple type="file" data-show-caption="true">
 			<hr />
@@ -77,13 +46,13 @@
 			</form>
           </div>
 
-          <div class="mastfoot" >
+          <!-- <div class="mastfoot" >
             
             <div class="inner">
               <hr />
               <p> ©2019-2020 BlueWhale.Inc All Rights Reserved</p>
             </div>
-          </div>
+          </div> -->
 
         </div>
 
@@ -118,12 +87,7 @@
 		   dataType: 'json',
 		   async: false,
 		   success: function(data){
-			   var flag = eval(data);
-			   if("200"==flag) {
-				   alert("整合成功");
-			   } else {
-				   alert("整合失败");
-			   }
+			   alert(data.msgDesc);
 		   }
 		   
 	   });

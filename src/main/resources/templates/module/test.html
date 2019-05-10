@@ -1,20 +1,118 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-	<meta charset="utf-8">
-	<title>BlueWhale</title>
-	<head th:include="include/includebase" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+	<!-- 设置ico标签栏logo图标 -->
+    <link rel="icon" href="img/logo/blueWhaleLogo1.5.png"/>
+    <title>Blue Whale</title>
+
+    <head th:include="include/includebase" />
+    <link th:href="@{/bootstrap-3.3.7/css/cover.css}" rel="stylesheet"/>
+    
+    <style>
+        html,body{
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .header{
+            width: 100%;
+            height: 10%;
+            background: #2e6da4;
+            line-height: 10%;
+        }
+        .menu {
+            position: absolute;
+            top: 10%;
+            bottom: 0;
+            width: 15%;
+            height: 90%;
+            background: #1b6d85;
+            float: left;
+        }
+        .btn-full{
+            width: 100%;
+
+            border-radius: 0;
+        }
+        #downBtn{
+            display: none;
+        }
+        #my_frame{
+        	top: 10%;
+            width: 85%;
+            height: 90%;
+            float: right;
+        }
+        .masthead-brand {
+			margin-top: 1.5%;
+			margin-bottom: 10px;
+			margin-left: 2%;
+		}
+    </style>
 </head>
 <body>
-	<div class="col-lg-3 bs-docs-sidebar">
-        <div class="list-group">
-            <div class="list-group-item active text-center">会员中心</div>
-            <a href="#" class="list-group-item  list-group-item-danger">购物车</a>
-            <a href="#" class="list-group-item  list-group-item-danger">我的订单</a>
-            <a href="{:U('Mem/profile')}" class="list-group-item  list-group-item-danger">修改密码</a>
-            <a href="{:U('Mem/logout')}" class="list-group-item  list-group-item-danger">退出</a>
-        </div>        
+	<div class="header">
+	    <h2 class="masthead-brand">Blue Whale</h2>
+	</div>
+    <div class="menu">
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <a class="btn btn-primary btn-full"  role="button" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                	用戶信息
+            </a>
+
+            <a class="btn btn-primary btn-full"  role="button" data-toggle="collapse" href="#collapseDaily" aria-expanded="false" aria-controls="collapseDaily">
+                	日报周报
+            </a>
+            <div id="collapseDaily" class="panel-collapse collapse">
+                <div class="list-group">
+                    <a href="#" class="list-group-item">日报编写</a>
+                    <a href="#" class="list-group-item">日报上传</a>
+                    <a href="#" class="list-group-item" target="my_frame">周报整合</a>
+                    <a href="#" class="list-group-item">周报下载</a>
+                    <a href="#" class="list-group-item">模板上传</a>
+                    <a href="#" class="list-group-item">下周计划</a>
+                </div>
+            </div>
+
+			<a class="btn btn-primary btn-full"  role="button" data-toggle="collapse" href="#collapseDemand" aria-expanded="false" aria-controls="collapseDemand">
+                	需求签报
+            </a>
+            <div id="collapseDemand" class="panel-collapse collapse">
+                <div class="list-group">
+                    <a href="#" class="list-group-item">需求录入</a>
+                    <a href="#" class="list-group-item">签报录入</a>
+                    <a href="#" class="list-group-item">其他</a>
+                </div>
+            </div>
+        </div>
+
     </div>
 
+
+	<iframe name="my_iframe" id="my_frame" src="/bluewhale/module/weekconfirm" scrolling="no" onload="changeFrameHeight()"></iframe>
+
+    <script type="text/javascript">
+    	function changeFrameHeight(){
+            var iframe= document.getElementById("my_iframe");
+            iframe.height= 0;   //这里必须要先设置成0，不然后面会有问题
+            iframe.height=iframe.contentWindow.document.body.scrollHeight;
+        }
+
+        //监听浏览器窗口变换，这里采用jquery，不然在ie中会出现问题
+        $(window).resize(function() { 
+            changeFrameHeight();
+        });
+        $("#closeBtn").click(function () {
+            $(".menu").toggle(500,function () {
+                $(".glyphicon-menu-down").toggle();
+                $(".glyphicon-menu-up").toggle();
+            });
+        });
+    </script>
 </body>
 </html>
