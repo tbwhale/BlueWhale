@@ -74,12 +74,16 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 		//周报整合
 		List<ExcelSheetPO> weeklyInfo = weeklyFormat(allDailyEntities, team, start, end);
 		
-		String downpath = downloadPath+team;
-		File downloadDir = new File(downpath);
+		File downloads = new File(downloadPath);
 		
-		if (!downloadDir.exists()) {
-			downloadDir.mkdir();
+		File downloadDir = new File(downloadPath+team);
+		if (!downloads.exists()) {
+			downloads.mkdir();
+			if (!downloadDir.exists()) {
+				downloadDir.mkdir();
+			}
 		}
+		
 		POIWriteReadExcel.createWorkbookAtDisk(ExcelVersion.V2003, weeklyInfo, downloadDir+"/"+team+".xlsx");
 		
 		logger.info("整合周报结束");
