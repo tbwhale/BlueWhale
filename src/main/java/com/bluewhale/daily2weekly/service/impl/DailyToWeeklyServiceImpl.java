@@ -3,7 +3,9 @@ package com.bluewhale.daily2weekly.service.impl;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,8 +36,16 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 	@Value("${bluewhale.module.downloadPath}")
 	private String downloadPath;
 	
+	/**
+	 *  整合周报
+	 * @param uploadPath 上传路径
+	 * @param team 项目组
+	 * @param start 开始日期
+	 * @param end 结束日期
+	 * @return String 整合生成文件路径及文件名
+	 */
 	@Override
-	public void conformWeeklyInfo(String uploadPath, String team, String start, String end) throws FileNotFoundException, IOException {
+	public String conformWeeklyInfo(String uploadPath, String team, String start, String end) throws FileNotFoundException, IOException {
 		
 		logger.info("整合周报开始");
 		
@@ -76,17 +86,21 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 		
 		File downloads = new File(downloadPath);
 		
-		File downloadDir = new File(downloadPath+team);
+//		File downloadDir = new File(downloadPath+team);
 		if (!downloads.exists()) {
 			downloads.mkdir();
-			if (!downloadDir.exists()) {
-				downloadDir.mkdir();
-			}
+//			if (!downloadDir.exists()) {
+//				downloadDir.mkdir();
+//			}
 		}
 		
-		POIWriteReadExcel.createWorkbookAtDisk(ExcelVersion.V2003, weeklyInfo, downloadDir+"/"+team+".xlsx");
+		String fileNameDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
+		String filePathAndName = downloads+"\\LI-HuaXia-PMC-项目周报-"+fileNameDate+"-"+team+".xlsx";
+		
+		POIWriteReadExcel.createWorkbookAtDisk(ExcelVersion.V2003, weeklyInfo, filePathAndName);
 		
 		logger.info("整合周报结束");
+		return filePathAndName;
 	}
 	
 	@Override
@@ -96,9 +110,9 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 		ExcelSheetPO lastWeekSheet = new ExcelSheetPO();
 		lastWeekSheet.setSheetName("上周工作内容");
 		lastWeekSheet.setTitle("上周已经完成的任务总结");
-		if ("batch".equals(team)) {
+//		if ("batch".equals(team)) {
 			lastWeekSheet.setHeaders(WeekTemp.batch_team_headers);
-		}
+//		}
 		for (PersonAndDailyEntity personAndDailyEntity : lists) {
 			String personName = personAndDailyEntity.getPersonName();
 			logger.equals(personName);

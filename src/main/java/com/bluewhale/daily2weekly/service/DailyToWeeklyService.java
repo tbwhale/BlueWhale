@@ -16,7 +16,7 @@ public interface DailyToWeeklyService {
 
 	List<ExcelSheetPO> weeklyFormat(List<PersonAndDailyEntity> lists,String team,String start,String end);
 
-	void conformWeeklyInfo(String uploadPath, String team, String start, String end) throws FileNotFoundException, IOException;
+	String conformWeeklyInfo(String uploadPath, String team, String start, String end) throws FileNotFoundException, IOException;
 
 	List<ExcelSheetPO> dailyFormat(List<ExcelSheetPO> list, String start,
 			String end);

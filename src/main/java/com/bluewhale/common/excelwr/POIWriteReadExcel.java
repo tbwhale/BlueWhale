@@ -349,7 +349,7 @@ public class POIWriteReadExcel {
 			return;
 		}
     	// 限制最大列数
-        int column = excelSheetPO.getHeaders().length > version.getMaxColumn() ? version.getMaxColumn()
+    	int column = excelSheetPO.getHeaders().length > version.getMaxColumn() ? version.getMaxColumn()
                 : excelSheetPO.getHeaders().length;
         sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, column-1));
         Row titleRow = sheet.createRow(0);

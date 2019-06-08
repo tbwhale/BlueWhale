@@ -88,7 +88,8 @@ public class ModuleDispatchController {
 		messages.setMsgCode("200");
 		messages.setMsgDesc("整合成功");
 		try {
-			service.conformWeeklyInfo(uploadPath,team,start,end);
+			String downloadPath = service.conformWeeklyInfo(uploadPath,team,start,end);
+			messages.setMsgDesc("整合成功，文件路径："+downloadPath);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Writer writer = new StringWriter();
@@ -99,7 +100,7 @@ public class ModuleDispatchController {
 		
 		if (errorMessage != null) {
 			messages.setMsgCode("500");
-			messages.setMsgDesc(errorMessage);
+			messages.setMsgDesc("整合异常，异常原因如下："+errorMessage);
 		}
 		
 		return messages;
