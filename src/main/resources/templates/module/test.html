@@ -22,8 +22,9 @@
         .header{
             width: 100%;
             height: 10%;
-            background: #2e6da4;
-            line-height: 10%;
+/*             background: #2e6da4; */
+			background: #027398;
+             line-height: 10%; 
         }
         .menu {
             position: absolute;
@@ -31,7 +32,8 @@
             bottom: 0;
             width: 15%;
             height: 90%;
-            background: #1b6d85;
+/*             background: #1b6d85; */
+			background: #027398;
             float: left;
         }
         .btn-full{
@@ -49,9 +51,9 @@
             float: right;
         }
         .masthead-brand {
-			margin-top: 1.5%;
-			margin-bottom: 10px;
-			margin-left: 2%;
+ 			margin-top: 1.5%; 
+ 			margin-bottom: 10px; 
+			margin-left: 2%; 
 		}
     </style>
 </head>
@@ -93,12 +95,12 @@
 
     </div>
 
-
-	<iframe name="my_iframe" id="my_frame" src="/bluewhale/module/weekconfirm" scrolling="no" onload="changeFrameHeight()"></iframe>
+	<!-- 嵌套网页 -->
+	<iframe name="my_iframe" id="my_frame" src="/bluewhale/module/weekconfirm" frameborder= "0" scrolling="no" onload="changeFrameHeight()"></iframe>
 
     <script type="text/javascript">
     	function changeFrameHeight(){
-            var iframe= document.getElementById("my_iframe");
+            var iframe= document.getElementById("my_frame");
             iframe.height= 0;   //这里必须要先设置成0，不然后面会有问题
             iframe.height=iframe.contentWindow.document.body.scrollHeight;
         }
