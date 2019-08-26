@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.bluewhale.common.excelwr.entity.ExcelSheetPO;
 import com.bluewhale.daily2weekly.mybatis.entity.PersonAndDailyEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author ZhangXr
@@ -13,6 +14,8 @@ import com.bluewhale.daily2weekly.mybatis.entity.PersonAndDailyEntity;
  * @time 上午11:36:32
  */
 public interface DailyToWeeklyService {
+
+	String conformWeeklyInfoByMultipartFiles(MultipartFile[] multipartFiles, String team, String startDate, String endDate) throws FileNotFoundException, IOException;
 
 	List<ExcelSheetPO> weeklyFormat(List<PersonAndDailyEntity> lists,String team,String start,String end);
 

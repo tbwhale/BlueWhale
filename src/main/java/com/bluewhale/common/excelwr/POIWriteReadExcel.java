@@ -1,10 +1,6 @@
 package com.bluewhale.common.excelwr;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,6 +27,7 @@ import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.WorkbookUtil;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.bluewhale.common.excelwr.entity.ExcelSheetPO;
@@ -124,6 +121,75 @@ public class POIWriteReadExcel {
     
 	}
 
+    /**
+     * 读取excel文件
+     * @param inputStream InputStream
+     * @param fileName 文件名
+     * @param rowCount Excel要读取行数 可为空
+     * @param columnCount Excel要读取列数 可为空
+     * @return
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public static List<ExcelSheetPO> readExcelByInputStream(InputStream inputStream,String fileName, Integer rowCount, Integer columnCount) throws FileNotFoundException, IOException {
+        // 根据后缀名称判断excel的版本
+        String extName = FileUtil.getFileExtName(fileName);
+        Workbook wb = null;
+        FileInputStream fileInputStream = (FileInputStream)inputStream ;
+        if (ExcelVersion.V2003.getSuffix().equals(extName)) {
+            wb = new HSSFWorkbook(fileInputStream);
+
+        } else if (ExcelVersion.V2007.getSuffix().equals(extName)) {
+            wb = new XSSFWorkbook(fileInputStream);
+
+        } else {
+            // 无效后缀名称，这里之能保证excel的后缀名称，不能保证文件类型正确，不过没关系，在创建Workbook的时候会校验文件格式
+            throw new IllegalArgumentException("Invalid excel version");
+        }
+        // 开始读取数据
+        List<ExcelSheetPO> sheetPOs = new ArrayList<ExcelSheetPO>();
+        // 解析sheet
+        for (int i = 0; i < wb.getNumberOfSheets(); i++) {
+            Sheet sheet = wb.getSheetAt(i);
+            List<List<Object>> dataList = new ArrayList<List<Object>>();
+            ExcelSheetPO sheetPO = new ExcelSheetPO();
+            sheetPO.setSheetName(sheet.getSheetName());
+            sheetPO.setDataList(dataList);
+            int readRowCount = 0;
+            if (rowCount == null || rowCount > sheet.getPhysicalNumberOfRows()) {
+                readRowCount = sheet.getPhysicalNumberOfRows();
+            } else {
+                readRowCount = rowCount;
+            }
+            // 解析sheet 的行
+            for (int j = sheet.getFirstRowNum(); j < readRowCount; j++) {
+                Row row = sheet.getRow(j);
+                if (row == null) {
+                    continue;
+                }
+                if (row.getFirstCellNum() < 0) {
+                    continue;
+                }
+                int readColumnCount = 0;
+                if (columnCount == null || columnCount > row.getLastCellNum()) {
+                    readColumnCount = (int) row.getLastCellNum();
+                } else {
+                    readColumnCount = columnCount;
+                }
+                List<Object> rowValue = new LinkedList<Object>();
+                // 解析sheet 的列
+                for (int k = 0; k < readColumnCount; k++) {
+                    Cell cell = row.getCell(k);
+                    rowValue.add(getCellValue(wb, cell));
+                }
+                dataList.add(rowValue);
+            }
+            sheetPOs.add(sheetPO);
+        }
+        return sheetPOs;
+
+    }
+
 	/**
 	 * 单元格数据样式格式化
 	 * @param wb
@@ -170,7 +236,23 @@ public class POIWriteReadExcel {
         }
         return columnValue;
 	}
-	
+
+    /**
+     * 生成Workbook
+     * @param version excel版本
+     * @param excelSheets List<ExcelSheetPO>
+     * @return Workbook
+     * @throws IOException
+     */
+    public static Workbook createWorkbook(ExcelVersion version, List<ExcelSheetPO> excelSheets){
+        Workbook wb = null;
+        if (CollectionUtils.isNotEmpty(excelSheets)) {
+            wb = createWorkBook(version, excelSheets);
+
+        }
+        return wb;
+    }
+
 	/**
      * 在硬盘上写入excel文件
      * @param version
@@ -332,6 +414,8 @@ public class POIWriteReadExcel {
         for (int i = 0; i < headers.length && i < version.getMaxColumn(); i++) {
             Cell cellHeader = row.createCell(i);
             cellHeader.setCellStyle(getStyle(STYLE_HEADER, wb));
+//          cellHeader.getCellStyle().cloneStyleFrom(getStyle(STYLE_HEADER, wb));
+
             cellHeader.setCellValue(headers[i]);
         }
 
@@ -378,7 +462,12 @@ public class POIWriteReadExcel {
             return cellStyleMap.get(type);
         }
         // 生成一个样式
-        HSSFCellStyle style = (HSSFCellStyle) wb.createCellStyle();
+        CellStyle style = null;
+        if (wb instanceof HSSFWorkbook){
+            style = (HSSFCellStyle) wb.createCellStyle();
+        }else if (wb instanceof XSSFWorkbook){
+            style = (XSSFCellStyle) wb.createCellStyle();
+        }
         style.setBorderBottom(BorderStyle.THIN);
         style.setBorderLeft(BorderStyle.THIN);
         style.setBorderRight(BorderStyle.THIN);
