@@ -104,7 +104,7 @@ public class ModuleDispatchController {
 
 		if ("批处理".equals(team)){
 			downloadPath = downloadPath + "/BATCH";
-		} else if ("契约".equals(team)){
+		} else if ("新契约".equals(team)){
 			downloadPath = downloadPath + "/UW";
 		} else if ("续期".equals(team)){
 			downloadPath = downloadPath + "/RN";

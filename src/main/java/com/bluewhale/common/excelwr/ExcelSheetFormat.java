@@ -43,7 +43,7 @@ public class ExcelSheetFormat {
 		}
 		
 		String startMonth = start.replace("-", "").substring(0, 6);
-		String endMonth = end.replace("-", "").substring(0, 6);;
+		String endMonth = end.replace("-", "").substring(0, 6);
 		
 		if (startMonth.equals(split[1]) || endMonth.equals(split[1])) {
 			return split[2];
