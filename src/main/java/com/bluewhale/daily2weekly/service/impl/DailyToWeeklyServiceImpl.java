@@ -4,12 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
+import com.bluewhale.common.excelwr.entity.ExcelHeaders;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,10 +22,10 @@ import com.bluewhale.common.excelwr.entity.ExcelStartEndDate;
 import com.bluewhale.common.excelwr.entity.ExcelVersion;
 import com.bluewhale.daily2weekly.mybatis.entity.PersonAndDailyEntity;
 import com.bluewhale.daily2weekly.service.DailyToWeeklyService;
-import com.bluewhale.daily2weekly.temp.WeekTemp;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
+ * 模块周报处理
  * @author ZhangXr
  * @date 2019年3月24日
  * @time 上午11:37:38
@@ -36,11 +35,11 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 	
 	private static Logger logger = LoggerFactory.getLogger(DailyToWeeklyServiceImpl.class);
 	
-	@Value("${bluewhale.module.downloadPath}")
+	@Value("${bluewhale.moduleWR.downloadPath}")
 	private String downloadPath;
 
 	/**
-	 *  整合周报
+	 *  整合模块周报
 	 * @param multipartFiles 上传excel文件数组
 	 * @param team 项目组
 	 * @param startDate 开始日期
@@ -96,19 +95,19 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 		}
 		//周报整合
 		List<ExcelSheetPO> weeklyInfo = weeklyFormat(allDailyEntities, team, startDate, endDate);
-		Workbook workbook = null;
+//		Workbook workbook = null;
 //		Workbook workbook = POIWriteReadExcel.createWorkbook(ExcelVersion.V2007,weeklyInfo);
-		if ("批处理".equals(team)){
-			downloadPath = downloadPath + "/BATCH";
-		} else if ("新契约".equals(team)){
-			downloadPath = downloadPath + "/UW";
-		} else if ("续期".equals(team)){
-			downloadPath = downloadPath + "/RN";
-		} else if ("保全".equals(team)){
-			downloadPath = downloadPath + "/POS";
-		} else if ("理赔".equals(team)){
-			downloadPath = downloadPath + "/CLAIM";
-		}
+//		if ("批处理".equals(team)){
+//			downloadPath = downloadPath + "/BATCH";
+//		} else if ("新契约".equals(team)){
+//			downloadPath = downloadPath + "/UW";
+//		} else if ("续期".equals(team)){
+//			downloadPath = downloadPath + "/RN";
+//		} else if ("保全".equals(team)){
+//			downloadPath = downloadPath + "/POS";
+//		} else if ("理赔".equals(team)){
+//			downloadPath = downloadPath + "/CLAIM";
+//		}
 
 		File downloads = new File(downloadPath);
 
@@ -118,8 +117,9 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 
 		String fileNameDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
 		String filePathAndName = downloadPath+"/LI-HuaXia-PMC-项目周报-"+fileNameDate+"-"+team+".xlsx";
-
+		logger.info("模块周报开始写入服务器磁盘...");
 		POIWriteReadExcel.createWorkbookAtDisk(ExcelVersion.V2007, weeklyInfo, filePathAndName);
+		logger.info("模块周报写入服务器磁盘成功！磁盘路径：{}",filePathAndName);
 		logger.info("整合周报结束!cost {} million seconds",System.currentTimeMillis() - startTimestamp);
 		return filePathAndName;
 	}
@@ -198,11 +198,14 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 	@Override
 	public List<ExcelSheetPO> weeklyFormat(List<PersonAndDailyEntity> lists,String team,String start,String end) {
 		List<ExcelSheetPO> resultList = new ArrayList<ExcelSheetPO>();
-		List<List<Object>> dataLists = new ArrayList<List<Object>>();
+		List<List<Object>> lastDataLists = new ArrayList<List<Object>>();
+		List<List<Object>> nextDataLists = new ArrayList<List<Object>>();
+
+		//形成上周工作内容
 		ExcelSheetPO lastWeekSheet = new ExcelSheetPO();
 		lastWeekSheet.setSheetName("上周工作内容");
 		lastWeekSheet.setTitle("上周已经完成的任务总结");
-		lastWeekSheet.setHeaders(WeekTemp.team_headers);
+		lastWeekSheet.setHeaders(ExcelHeaders.module_wr_this_week_mission);
 		for (PersonAndDailyEntity personAndDailyEntity : lists) {
 			String personName = personAndDailyEntity.getPersonName();
 			logger.equals(personName);
@@ -218,24 +221,81 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 					rowDataList.add(dataList.get(i).get(0));
 					rowDataList.add(dataList.get(i).get(1));
 					rowDataList.add(dataList.get(i).get(2));
-					rowDataList.add(start);
-					rowDataList.add(end);
+					rowDataList.add(start.replace("-","/"));
+					rowDataList.add(end.replace("-","/"));
 					double worktime = Double.parseDouble(String.valueOf(dataList.get(i).get(3)));
 					rowDataList.add(worktime/8);
 					rowDataList.add(personName);
 					rowDataList.add("");
 					rowDataList.add("");
-					dataLists.add(rowDataList);
+					lastDataLists.add(rowDataList);
 				}
 			}
 		}
-		lastWeekSheet.setDataList(dataLists);
+		lastWeekSheet.setDataList(lastDataLists);
+		resultList.add(lastWeekSheet);
+
+		//形成下周工作计划
 		ExcelSheetPO nextWeekPlanSheet = new ExcelSheetPO();
 		nextWeekPlanSheet.setSheetName("下周工作计划");
 		nextWeekPlanSheet.setTitle("本周一至五的工作计划安排");
-		nextWeekPlanSheet.setHeaders(WeekTemp.next_week_plan);
-		
-		resultList.add(lastWeekSheet);
+		nextWeekPlanSheet.setHeaders(ExcelHeaders.module_wr_next_week_mission);
+
+		for (PersonAndDailyEntity personAndDailyEntity : lists) {
+			String personName = personAndDailyEntity.getPersonName();
+			String temName = null;
+			logger.equals(personName);
+			List<ExcelSheetPO> dailyDataLists = personAndDailyEntity.getDailyDataLists();
+			for (ExcelSheetPO excelSheetPO : dailyDataLists) {
+				for (int i = 0; i < excelSheetPO.getDataList().size(); i++) {
+					List<List<Object>> dataList = excelSheetPO.getDataList();
+					List<Object> rowDataList = new ArrayList<Object>();
+					if (dataList.get(i).get(2) == null || "".equals(dataList.get(i).get(2))
+							|| dataList.get(i).get(3) == null || "".equals(dataList.get(i).get(3))) {
+						continue;
+					}
+
+					if(personName == null){
+						continue;
+					}
+
+					if(!personName.equals(temName)||temName==null){
+						rowDataList.add("");
+						rowDataList.add("");
+						rowDataList.add("");
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+						Date startDate  = null;
+						Date endDate  = null;
+						try {
+							//获取下周一日期
+							startDate  = sdf.parse(start);
+							endDate  = sdf.parse(end);
+							Calendar startCal = Calendar.getInstance();
+							startCal.setTime(startDate);
+							startCal.add(Calendar.DATE, 7);
+							startDate = startCal.getTime();
+							//获取下周五日期
+							Calendar endCal = Calendar.getInstance();
+							endCal.setTime(endDate);
+							endCal.add(Calendar.DATE, 7);
+							endDate = endCal.getTime();
+						} catch (ParseException e) {
+							e.printStackTrace();
+						}
+						rowDataList.add(new SimpleDateFormat("yyyy/MM/dd").format(startDate));
+						rowDataList.add(new SimpleDateFormat("yyyy/MM/dd").format(endDate));
+						rowDataList.add(5);
+						rowDataList.add(personName);
+						rowDataList.add("");
+						nextDataLists.add(rowDataList);
+
+						temName = personName;
+					}
+				}
+			}
+		}
+		nextWeekPlanSheet.setDataList(nextDataLists);
+
 		resultList.add(nextWeekPlanSheet);
 		
 		return resultList;

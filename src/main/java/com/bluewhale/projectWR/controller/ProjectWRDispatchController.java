@@ -1,33 +1,30 @@
-package com.bluewhale.controller;
+package com.bluewhale.projectWR.controller;
 
-import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import com.bluewhale.common.util.Messages;
+import com.bluewhale.daily2weekly.service.DailyToWeeklyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.bluewhale.common.util.Messages;
-import com.bluewhale.daily2weekly.service.DailyToWeeklyService;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
- * 模块分发
- * @author  张晓睿
+ * 项目周报操作
+ * @author  liuketing
  * @version v0.1.0
- * @Date    创建时间   2019年3月25日 下午3:55:25
+ * @Date    创建时间   2019-9-15
  */
 @RestController
-@RequestMapping("/module")
-public class ModuleDispatchController {
+@RequestMapping("/projectWR")
+public class ProjectWRDispatchController {
 
-	private static Logger logger = LoggerFactory.getLogger(ModuleDispatchController.class);
+	private static Logger logger = LoggerFactory.getLogger(ProjectWRDispatchController.class);
 
 	@Value("${bluewhale.moduleWR.uploadPath}")
 	private String uploadPath;
@@ -95,17 +92,17 @@ public class ModuleDispatchController {
 	@ResponseBody
 	public void excelDownload(HttpServletResponse response, String team) throws Exception {
 
-//		if ("批处理".equals(team)){
-//			downloadPath = downloadPath + "/BATCH";
-//		} else if ("新契约".equals(team)){
-//			downloadPath = downloadPath + "/UW";
-//		} else if ("续期".equals(team)){
-//			downloadPath = downloadPath + "/RN";
-//		} else if ("保全".equals(team)){
-//			downloadPath = downloadPath + "/POS";
-//		} else if ("理赔".equals(team)){
-//			downloadPath = downloadPath + "/CLAIM";
-//		}
+		if ("批处理".equals(team)){
+			downloadPath = downloadPath + "/BATCH";
+		} else if ("新契约".equals(team)){
+			downloadPath = downloadPath + "/UW";
+		} else if ("续期".equals(team)){
+			downloadPath = downloadPath + "/RN";
+		} else if ("保全".equals(team)){
+			downloadPath = downloadPath + "/POS";
+		} else if ("理赔".equals(team)){
+			downloadPath = downloadPath + "/CLAIM";
+		}
 
 		String fileNameDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
 		String filename = "LI-HuaXia-PMC-项目周报-"+fileNameDate+"-"+team+".xlsx";

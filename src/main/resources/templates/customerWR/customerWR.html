@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+	<!-- 设置ico标签栏logo图标 -->
+    <link rel="icon" href="img/logo/blueWhaleLogo1.5.png"/>
+    <title>Blue Whale</title>
+
+    <head th:include="include/includebase" />
+    <link th:href="@{/bootstrap-3.3.7/css/cover.css}" rel="stylesheet"/>
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+	<div class="site-wrapper">
+      <div class="site-wrapper-inner">
+        <div class="cover-container">
+          <div class="inner cover" style="margin-bottom: 0">
+              <h2>客户周报整合下载</h2>
+              <input id="input_id" name="file" multiple type="file" data-show-caption="true">
+              <input id="conformAndDownload" type="submit" class="btn btn-lg btn-default" value="整合下载"/>
+              <hr/>
+          </div>
+        </div>
+      </div>
+    </div>
+	
+    <script>
+
+        $('.date').datetimepicker({//选择年月日
+    　　　　　　format: 'yyyy-mm-dd',
+    　　　　　　language: 'zh-CN',
+    　　　　　　weekStart: 1,
+    　　　　　　autoclose: 1,
+    　　　　　　todayHighlight: 1,
+    　　　　　　startView: 2,
+    　　　　　　minView: 2,  //Number, String. 默认值：0, 'hour'，日期时间选择器所能够提供的最精确的时间选择视图。
+    　　　　　　clearBtn:true,//清除按钮
+
+    　　　　　　forceParse: 0
+    　　　　});
+
+        //整合下载周报
+        $('#conformAndDownload').click(function() {
+
+            $('#input_id').fileinput('upload');//触发插件开始上传文件
+        })
+
+       $(function () {
+           initFileInput("input_id");
+       })
+
+       function initFileInput(ctrlName) {
+           var control = $('#' + ctrlName);
+           control .fileinput({
+               language: 'zh', //设置语言
+               uploadUrl: "/bluewhale/customerWR/uploadAndConform", //上传的地址
+               allowedFileExtensions: ['xls','xlsx'],//接收的文件后缀 'jpg', 'gif', 'png','doc','docx','pdf','txt'
+               maxFilesNum : 20,//上传最大的文件数量
+               //uploadExtraData:{"id": 1, "fileName":'123.mp3'},
+               uploadAsync: false, //false 同步上传，后台用数组接收，true 异步上传，每次上传一个file,会调用多次接口
+               showUpload: false, //是否显示上传按钮
+               showRemove : true, //显示移除按钮
+               showPreview : false, //是否显示预览
+               showCaption: false,//是否显示标题
+               browseClass: "btn btn-primary", //按钮样式
+               dropZoneEnabled: true,//是否显示拖拽区域
+               //minImageWidth: 50, //图片的最小宽度
+               //minImageHeight: 50,//图片的最小高度
+               //maxImageWidth: 1000,//图片的最大宽度
+               //maxImageHeight: 1000,//图片的最大高度
+               maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+               //minFileCount: 0,
+               maxFileCount: 20, //表示允许同时上传的最大文件个数
+               enctype: 'multipart/form-data',
+               validateInitialCount:true,
+               previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+               msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+           }).on('filepreupload', function(event, data, previewId, index) {     //上传中
+               var form = data.form, files = data.files, extra = data.extra,
+               response = data.response, reader = data.reader;
+               console.log('文件正在上传');
+               alert('文件正在上传');
+           }).on("fileuploaded", function (event, data, previewId, index) {    //异步上传成功结果处理
+               console.log('文件上传成功！'+data.id);
+               alert('文件上传成功');
+           }).on('fileerror', function(event, data, msg) {  //异步上传失败结果处理
+               console.log('文件上传失败！'+data.id);
+           }).on('filebatchuploadsuccess', function(event,data,previewId,index) {//同步上传回调
+
+               //excel文件下载
+               window.location.href = '/bluewhale/customerWR/excelDownload';
+           })
+        }
+    </script>
+  </body>
+</html>

@@ -27,6 +27,7 @@ import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.WorkbookUtil;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -180,18 +181,21 @@ public class POIWriteReadExcel {
                 // 解析sheet 的列
                 for (int k = 0; k < readColumnCount; k++) {
                     Cell cell = row.getCell(k);
-                    rowValue.add(getCellValue(wb, cell));
+                    if (wb instanceof HSSFWorkbook){
+                        rowValue.add(getCellValue(wb, cell));
+                    }else if (wb instanceof XSSFWorkbook){
+                        rowValue.add(getStringCellValue(cell));
+                    }
                 }
                 dataList.add(rowValue);
             }
             sheetPOs.add(sheetPO);
         }
         return sheetPOs;
-
     }
 
 	/**
-	 * 单元格数据样式格式化
+	 * 单元格数据样式格式化(2003版)
 	 * @param wb
 	 * @param cell
 	 * @return
@@ -236,6 +240,47 @@ public class POIWriteReadExcel {
         }
         return columnValue;
 	}
+
+    /**
+     * 获取单元格数据内容为字符串类型的数据(2007版)
+     *
+     * @param cell Excel单元格
+     * @return String 单元格数据内容
+     */
+    private static Object getStringCellValue(Cell cell) {
+        String strCell = "";
+        if (cell == null) {
+            return "";
+        }
+        switch (cell.getCellType()) {
+            case XSSFCell.CELL_TYPE_STRING:
+                strCell = cell.getStringCellValue();
+                break;
+            case XSSFCell.CELL_TYPE_NUMERIC:
+                if (XSSFDateUtil.isCellDateFormatted(cell)) {
+                    //  如果是date类型则 ，获取该cell的date值
+                    strCell = new SimpleDateFormat("yyyy/MM/dd").format(XSSFDateUtil.getJavaDate(cell.getNumericCellValue()));
+                } else { // 纯数字
+                    strCell = String.valueOf(cell.getNumericCellValue());
+                }
+                break;
+            case XSSFCell.CELL_TYPE_BOOLEAN:
+                strCell = String.valueOf(cell.getBooleanCellValue());
+                break;
+            case XSSFCell.CELL_TYPE_BLANK:
+                strCell = "";
+                break;
+            default:
+                strCell = "";
+                break;
+        }
+        if (strCell.equals("") || strCell == null) {
+            return "";
+        }
+
+        return strCell;
+    }
+
 
     /**
      * 生成Workbook
@@ -340,7 +385,6 @@ public class POIWriteReadExcel {
         if (excelSheetPO.getDataList() != null && excelSheetPO.getDataList().size() > 0) {
         	createBody(sheet, excelSheetPO, wb, version, titleFlag, headersFlag);
 		}
-        
     }
 
     /**
@@ -377,12 +421,18 @@ public class POIWriteReadExcel {
             Row row = sheet.createRow(rowStart + i);
             for (int j = 0; j < values.size() && j < version.getMaxColumn(); j++) {
                 Cell cell = row.createCell(j);
-                String string = values.get(j).toString();
-                if (string != null && string.length() > 10) {
-                	cell.setCellStyle(getStyle(STYLE_LONGDATA, wb));
-				} else {
-					cell.setCellStyle(getStyle(STYLE_DATA, wb));
-				}
+//                String string = values.get(j).toString();
+//                if (string != null && string.length() > 10) {
+//                	cell.setCellStyle(getStyle(STYLE_LONGDATA, wb));
+//				} else {
+//					cell.setCellStyle(getStyle(STYLE_DATA, wb));
+//				}
+
+                if (j == 2) {
+                    cell.setCellStyle(getStyle(STYLE_LONGDATA, wb));
+                } else {
+                    cell.setCellStyle(getStyle(STYLE_DATA, wb));
+                }
                 
                 cell.setCellValue(values.get(j).toString());
             }
@@ -414,11 +464,9 @@ public class POIWriteReadExcel {
         for (int i = 0; i < headers.length && i < version.getMaxColumn(); i++) {
             Cell cellHeader = row.createCell(i);
             cellHeader.setCellStyle(getStyle(STYLE_HEADER, wb));
-//          cellHeader.getCellStyle().cloneStyleFrom(getStyle(STYLE_HEADER, wb));
-
+//            cellHeader.getCellStyle().cloneStyleFrom(getStyle(STYLE_HEADER, wb));
             cellHeader.setCellValue(headers[i]);
         }
-
     }
 
     /**
@@ -438,16 +486,12 @@ public class POIWriteReadExcel {
         sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, column-1));
         Row titleRow = sheet.createRow(0);
         Cell createCell = titleRow.createCell(0);
-        CellStyle titleCel = wb.createCellStyle();
-        titleCel.setAlignment(HorizontalAlignment.CENTER);
-        titleCel.setVerticalAlignment(VerticalAlignment.CENTER);
+        createCell.setCellStyle(getStyle(STYLE_TITLE, wb));
         createCell.setCellValue(excelSheetPO.getTitle());
         for (int i = 1; i < column; i++) {
         	Cell nullCell = titleRow.createCell(i);
         	nullCell.setCellValue("");
 		}
-        titleCel.cloneStyleFrom(getStyle(STYLE_TITLE, wb));
-        
     }
 
     /**
@@ -468,20 +512,24 @@ public class POIWriteReadExcel {
         }else if (wb instanceof XSSFWorkbook){
             style = (XSSFCellStyle) wb.createCellStyle();
         }
-        style.setBorderBottom(BorderStyle.THIN);
-        style.setBorderLeft(BorderStyle.THIN);
-        style.setBorderRight(BorderStyle.THIN);
-        style.setBorderTop(BorderStyle.THIN);
+        //设置边框
+        style.setBorderBottom(BorderStyle.THIN);//下边框
+        style.setBorderLeft(BorderStyle.THIN);//左边框
+        style.setBorderRight(BorderStyle.THIN);//右边框
+        style.setBorderTop(BorderStyle.THIN);//上边框
         style.setWrapText(true);
 
         if (STYLE_HEADER == type) {
+            //设置居中
         	style.setAlignment(HorizontalAlignment.CENTER);
         	style.setVerticalAlignment(VerticalAlignment.CENTER);
-            Font font = wb.createFont();
-            font.setFontHeightInPoints((short) 10);
+            //设置字体
+        	Font font = wb.createFont();
+            font.setFontHeightInPoints((short) 10);//设置字体大小
             font.setBold(true);
-            style.setFont(font);
             font.setFontName("宋体");
+            style.setFont(font);
+            //设置背景色
             style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
             style.setFillForegroundColor(HSSFColor.HSSFColorPredefined.LIGHT_YELLOW.getIndex());
         } else if (STYLE_TITLE == type) {
@@ -493,7 +541,7 @@ public class POIWriteReadExcel {
             font.setFontName("宋体");
             style.setFont(font);
             style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-            style.setFillForegroundColor(HSSFColor.HSSFColorPredefined.GREY_80_PERCENT.getIndex());
+            style.setFillForegroundColor(HSSFColor.HSSFColorPredefined.GREY_25_PERCENT.getIndex());
         } else if (STYLE_DATA == type) {
             style.setAlignment(HorizontalAlignment.CENTER);
             style.setVerticalAlignment(VerticalAlignment.CENTER);

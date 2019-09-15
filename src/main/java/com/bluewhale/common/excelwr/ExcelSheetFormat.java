@@ -31,7 +31,14 @@ public class ExcelSheetFormat {
 		return sheetName;
 		
 	}
-	
+
+	/**
+	 * 根据日报名获取日报人名称
+	 * @param name
+	 * @param start
+	 * @param end
+	 * @return
+	 */
 	public static String CheckName(String name,String start,String end) {
 		if (name == null || "".equals(name)) {
 			return null;
@@ -51,6 +58,25 @@ public class ExcelSheetFormat {
 		
 		return null;
 		
+	}
+
+	/**
+	 * 根据模块周报名获取项目组名
+	 * @param name
+	 * @return
+	 */
+	public static String getItemByWRName(String name) {
+		if (name == null || "".equals(name)) {
+			return null;
+		}
+
+		String[] split = StringHelper.qualifier(name).split("-");
+		if (split.length != 6) {
+			return null;
+		}else{
+			return split[5];
+		}
+
 	}
 
 	/**
