@@ -44,7 +44,7 @@ public class CustomerWRDispatchController {
 			customerWRService.conformWeeklyInfoByMultipartFiles(multipartFiles);
 		}catch (Exception e){
 			e.printStackTrace();
-			logger.error("上传Excel文件整合模块周报异常，异常信息："+e.getMessage());
+			logger.error("上传Excel文件整合客户周报异常，异常信息："+e.getMessage());
 		}
 		return "200";
 	}

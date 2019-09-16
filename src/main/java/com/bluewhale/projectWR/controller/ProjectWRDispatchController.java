@@ -2,6 +2,7 @@ package com.bluewhale.projectWR.controller;
 
 import com.bluewhale.common.util.Messages;
 import com.bluewhale.daily2weekly.service.DailyToWeeklyService;
+import com.bluewhale.projectWR.service.ProjectWRService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,86 +27,42 @@ public class ProjectWRDispatchController {
 
 	private static Logger logger = LoggerFactory.getLogger(ProjectWRDispatchController.class);
 
-	@Value("${bluewhale.moduleWR.uploadPath}")
+	@Value("${bluewhale.projectWR.uploadPath}")
 	private String uploadPath;
-	@Value("${bluewhale.moduleWR.downloadPath}")
+	@Value("${bluewhale.projectWR.downloadPath}")
 	private String downloadPath;
 	@Autowired
-	private DailyToWeeklyService dailyToWeeklyService;
-
-	@PostMapping("/upload")
-	@ResponseBody
-	public String upload(MultipartFile file) {
-		if (file == null) {
-			return "400";
-		}
-		
-		File dirFile = new File(uploadPath);
-		
-		if (!dirFile.exists()) {
-			dirFile.mkdir();
-		}
-		
-		String filename = file.getOriginalFilename();
-		File serverFile = new File(uploadPath + filename);
-		
-		try {
-			file.transferTo(serverFile);
-		} catch (IllegalStateException | IOException e) {
-			e.printStackTrace();
-			return "400";
-		}
-		
-		return "200";
-	}
+	private ProjectWRService projectWRService;
 
 	/**
-	 * 上传excel文件并整合下载
+	 * 上传excel文件并整合
 	 * @param multipartFiles excel文件数组
-	 * @param team 项目组
-	 * @param startDate 整合开始日期
-	 * @param endDate 整合结束日期
 	 * @return
-	 * @throws Exception
 	 */
-	@PostMapping("/conformAndDownload")
+	@PostMapping("/uploadAndConform")
 	@ResponseBody
-	public String conformAndDownload(@RequestParam("file")MultipartFile[] multipartFiles, String team, String startDate, String endDate) {
+	public String conformAndDownload(@RequestParam("file")MultipartFile[] multipartFiles) {
 		try {
-			dailyToWeeklyService.conformWeeklyInfoByMultipartFiles(multipartFiles,team,startDate,endDate);
+			projectWRService.conformWeeklyInfoByMultipartFiles(multipartFiles);
 		}catch (Exception e){
 			e.printStackTrace();
-			logger.error("上传Excel文件整合模块周报异常，异常信息："+e.getMessage());
+			logger.error("上传Excel文件整合项目周报异常，异常信息："+e.getMessage());
 		}
-
 		return "200";
 	}
 
 	/**
 	 * 下载excel文件
 	 * @param response HttpServletResponse
-	 * @param team 项目组
 	 * @return
 	 * @throws Exception
 	 */
 	@GetMapping("/excelDownload")
 	@ResponseBody
-	public void excelDownload(HttpServletResponse response, String team) throws Exception {
-
-		if ("批处理".equals(team)){
-			downloadPath = downloadPath + "/BATCH";
-		} else if ("新契约".equals(team)){
-			downloadPath = downloadPath + "/UW";
-		} else if ("续期".equals(team)){
-			downloadPath = downloadPath + "/RN";
-		} else if ("保全".equals(team)){
-			downloadPath = downloadPath + "/POS";
-		} else if ("理赔".equals(team)){
-			downloadPath = downloadPath + "/CLAIM";
-		}
+	public void excelDownload(HttpServletResponse response) throws Exception {
 
 		String fileNameDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
-		String filename = "LI-HuaXia-PMC-项目周报-"+fileNameDate+"-"+team+".xlsx";
+		String filename = "LI-华夏个险-PMC-周报-"+fileNameDate+".xlsx";
 		String filePathAndName = downloadPath+"/"+filename;
 		File file = new File(filePathAndName);
 		if(file.exists()){
@@ -129,39 +86,5 @@ public class ProjectWRDispatchController {
 			out.close();
 			is.close();
 		}
-	}
-
-	/**
-	 * 周报整合
-	 * @param team 所属项目组
-	 * @param start 开始时间
-	 * @param end 结束时间
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping("/conform")
-	@ResponseBody
-	public Messages conformWR(@RequestParam("team")String team, @RequestParam("start")String start, @RequestParam("end")String end) throws Exception {
-		Messages messages = new Messages();
-		String errorMessage = null;
-		messages.setMsgCode("200");
-		messages.setMsgDesc("整合成功");
-		try {
-			String downloadPath = dailyToWeeklyService.conformWeeklyInfo(uploadPath,team,start,end);
-			messages.setMsgDesc("整合成功，文件路径："+downloadPath);
-		} catch (Exception e) {
-			e.printStackTrace();
-			Writer writer = new StringWriter();
-            PrintWriter printWriter = new PrintWriter(writer);
-            e.printStackTrace(printWriter);
-            errorMessage = e.getMessage();
-		}
-		
-		if (errorMessage != null) {
-			messages.setMsgCode("500");
-			messages.setMsgDesc("整合异常，异常原因如下："+errorMessage);
-		}
-		
-		return messages;
 	}
 }

@@ -1,4 +1,4 @@
-package com.bluewhale.customerWR.service.impl;
+package com.bluewhale.projectWR.service.impl;
 
 import com.bluewhale.common.excelwr.ExcelSheetFormat;
 import com.bluewhale.common.excelwr.POIWriteReadExcel;
@@ -6,7 +6,7 @@ import com.bluewhale.common.excelwr.entity.ExcelHeaders;
 import com.bluewhale.common.excelwr.entity.ExcelSheetPO;
 import com.bluewhale.common.excelwr.entity.ExcelVersion;
 import com.bluewhale.customerWR.entity.ItemAndWREntity;
-import com.bluewhale.customerWR.service.CustomerWRService;
+import com.bluewhale.projectWR.service.ProjectWRService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,20 +23,20 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 客户周报处理
+ * 项目周报处理
  * @author liuketing
- * @date 2019年9月15日
+ * @date 2019年9月16日
  */
 @Service
-public class CustomerWRServiceImpl implements CustomerWRService {
+public class ProjectWRServiceImpl implements ProjectWRService {
 	
-	private static Logger logger = LoggerFactory.getLogger(CustomerWRServiceImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(ProjectWRServiceImpl.class);
 	
-	@Value("${bluewhale.customerWR.downloadPath}")
+	@Value("${bluewhale.projectWR.downloadPath}")
 	private String downloadPath;
 
 	/**
-	 *  整合客户周报
+	 *  整合项目周报
 	 * @param multipartFiles 上传excel文件数组
 	 * @return Workbook
 	 */
@@ -94,10 +94,10 @@ public class CustomerWRServiceImpl implements CustomerWRService {
 			downloads.mkdirs();
 		}
 		String fileNameDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
-		String filePathAndName = downloadPath+"/LI-HuaXia-PMC-项目周报-"+fileNameDate+".xlsx";
-		logger.info("客户周报开始写入服务器磁盘...");
+		String filePathAndName = downloadPath+"/LI-华夏个险-PMC-周报-"+fileNameDate+".xlsx";
+		logger.info("项目周报开始写入服务器磁盘...");
 		POIWriteReadExcel.createWorkbookAtDisk(ExcelVersion.V2007, weeklyInfo, filePathAndName);
-		logger.info("客户周报写入服务器磁盘成功！磁盘路径：{}",filePathAndName);
+		logger.info("项目周报写入服务器磁盘成功！磁盘路径：{}",filePathAndName);
 		logger.info("整合周报结束, cost {} million seconds",System.currentTimeMillis() - startTimestamp);
 		return filePathAndName;
 	}
@@ -115,8 +115,8 @@ public class CustomerWRServiceImpl implements CustomerWRService {
 
 		ExcelSheetPO lastWeekSheet = new ExcelSheetPO();
 		lastWeekSheet.setSheetName("上周完成任务");
-		lastWeekSheet.setTitle("上周已经完成的任务总结");
-		lastWeekSheet.setHeaders(ExcelHeaders.customer_wr_this_week_mission);
+		lastWeekSheet.setTitle("上周已经完成的任务总结(任务类型：需求，设计，开发，测试，评审，编写文档，培训，其它任务)");
+		lastWeekSheet.setHeaders(ExcelHeaders.project_wr_this_week_mission);
 		for (ItemAndWREntity itemAndWREntity : lists) {
 			String item = itemAndWREntity.getItem();
 			logger.equals(item);
@@ -157,8 +157,8 @@ public class CustomerWRServiceImpl implements CustomerWRService {
 
 		ExcelSheetPO nextWeekPlanSheet = new ExcelSheetPO();
 		nextWeekPlanSheet.setSheetName("本周计划任务");
-		nextWeekPlanSheet.setTitle("本周一至五的工作计划安排");
-		nextWeekPlanSheet.setHeaders(ExcelHeaders.customer_wr_next_week_mission);
+		nextWeekPlanSheet.setTitle("本周一至五的工作计划安排(任务类型：需求，设计，开发，测试，评审，编写文档，培训，其它任务)");
+		nextWeekPlanSheet.setHeaders(ExcelHeaders.project_wr_next_week_mission);
 		for (ItemAndWREntity itemAndWREntity : lists) {
 			String item = itemAndWREntity.getItem();
 			logger.equals(item);
