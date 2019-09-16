@@ -1,6 +1,7 @@
 package com.bluewhale.common.excelwr;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -207,7 +208,7 @@ public class POIWriteReadExcel {
             // String
             // 字符
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");// 格式化日期字符串
-            DecimalFormat nf = new DecimalFormat("0.00");// 格式化数字
+//            DecimalFormat nf = new DecimalFormat("0.00");// 格式化数字
             switch (cell.getCellTypeEnum()) {
             case STRING:
                 columnValue = cell.getStringCellValue();
@@ -216,7 +217,8 @@ public class POIWriteReadExcel {
                 if ("@".equals(cell.getCellStyle().getDataFormatString())) {
                     columnValue = df.format(cell.getNumericCellValue());
                 } else if ("General".equals(cell.getCellStyle().getDataFormatString())) {
-                    columnValue = nf.format(cell.getNumericCellValue());
+//                    columnValue = nf.format(cell.getNumericCellValue());
+                    columnValue = BigDecimal.valueOf(cell.getNumericCellValue()).stripTrailingZeros().toPlainString();
                 } else {
                     columnValue = sdf.format(HSSFDateUtil.getJavaDate(cell.getNumericCellValue()));
                 }
@@ -261,7 +263,8 @@ public class POIWriteReadExcel {
                     //  如果是date类型则 ，获取该cell的date值
                     strCell = new SimpleDateFormat("yyyy/MM/dd").format(XSSFDateUtil.getJavaDate(cell.getNumericCellValue()));
                 } else { // 纯数字
-                    strCell = String.valueOf(cell.getNumericCellValue());
+//                    strCell = String.valueOf(cell.getNumericCellValue());
+                    strCell = BigDecimal.valueOf(cell.getNumericCellValue()).stripTrailingZeros().toPlainString();
                 }
                 break;
             case XSSFCell.CELL_TYPE_BOOLEAN:

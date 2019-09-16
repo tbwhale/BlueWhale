@@ -140,8 +140,8 @@ public class CustomerWRServiceImpl implements CustomerWRService {
 						rowDataList.add(dataList.get(i).get(0));
 						rowDataList.add(dataList.get(i).get(1));
 						rowDataList.add(dataList.get(i).get(2));
-						rowDataList.add(dataList.get(i).get(3));
-						rowDataList.add(dataList.get(i).get(4));
+						rowDataList.add(dataList.get(i).get(3).toString().replace("-","/"));
+						rowDataList.add(dataList.get(i).get(4).toString().replace("-","/"));
 						rowDataList.add(dataList.get(i).get(5));
 						rowDataList.add(dataList.get(i).get(6));
 						rowDataList.add("");
@@ -182,8 +182,8 @@ public class CustomerWRServiceImpl implements CustomerWRService {
 						rowDataList.add(dataList.get(i).get(0));
 						rowDataList.add(dataList.get(i).get(1));
 						rowDataList.add(dataList.get(i).get(2));
-						rowDataList.add(dataList.get(i).get(3));
-						rowDataList.add(dataList.get(i).get(4));
+						rowDataList.add(dataList.get(i).get(3).toString().replace("-","/"));
+						rowDataList.add(dataList.get(i).get(4).toString().replace("-","/"));
 						rowDataList.add(dataList.get(i).get(5));
 						rowDataList.add(dataList.get(i).get(6));
 						rowDataList.add("");
