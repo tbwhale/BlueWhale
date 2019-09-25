@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+	<!-- 设置ico标签栏logo图标 -->
+    <link rel="icon" href="img/logo/blueWhaleLogo1.5.png"/>
+    <title>Blue Whale</title>
+
+    <head th:include="include/includebase" />
+    <!--<link th:href="@{/bootstrap-3.3.7/css/cover.css}" rel="stylesheet"/>-->
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+
+  <h1>形式3：水平表单</h1>
+  <p>水平表单=表单+栅格系统</p>
+  <form action="#" class="form-horizontal"> <!--等价于div.container-->
+      <div class="form-group"><!--div.row-->
+          <div class="col-sm-1"><label for="uname3" class="control-label">用户名</label></div>
+          <div class="col-sm-3"> <input type="text" class="form-control" id="uname3"></div>
+          <div class="col-sm-5"> <span class="help-block">字母数字，，，，，</span></div>
+      </div>
+      <div class="form-group"><!--div.row-->
+          <div class="col-sm-1"><label for="upwd2" class="control-label">密码</label></div>
+          <div class="col-sm-3"> <input type="text" class="form-control" id="upwd2"></div>
+          <div class="col-sm-5"> <span class="help-block">密码位数，，，，，</span></div>
+      </div>
+      <div class="form-group"><!--div.row-->
+          <div class="col-sm-1"> <input type="button" class="btn btn-success" value="登陆"></div>
+          <div class="col-sm-1"> <input type="button" class="btn btn-danger" value="取消"></div>
+      </div>
+	<!--<div class="site-wrapper">-->
+
+      <!--<div class="site-wrapper-inner">-->
+
+        <!--<div class="cover-container">-->
+
+          <!--<div class="inner cover" style="margin-bottom: 0">-->
+              <!--<h2>项目周报整合下载</h2>-->
+                  <!--<input id="input_id" name="file" multiple type="file" data-show-caption="true">-->
+                  <!--<input id="conformAndDownload" type="submit" class="btn btn-lg btn-default" value="整合下载"/>-->
+
+			<!--<hr />-->
+          <!--</div>-->
+
+        <!--</div>-->
+
+      <!--</div>-->
+
+    <!--</div>-->
+	
+    <script>
+
+    </script>
+
+  </body>
+</html>
