@@ -26,39 +26,32 @@
         <div class="cover-container">
 
           <div class="masthead clearfix" style="position:absolute;z-index:12;">
+          	<div style="margin:12px 20px"><h2 class="masthead-brand" >Blue Whale</h2></div>
             <div class="inner" style="width:90%">
-              <h2 class="masthead-brand">Blue Whale</h2>
               <nav>
                 <ul class="nav masthead-nav">
                   <li class="active"><a href="/bluewhale">Home</a></li>
-                  <li class="dropdown" >
-		              <a href="/bluewhale/menu" class="dropdown-toggle" data-toggle="dropdown">
+                  <li><a href="/bluewhale/menu">Daily</a></li>
+		              <!-- <a href="/bluewhale/menu" class="dropdown-toggle" data-toggle="dropdown">
 		                  Features
 		                  <b class="caret"></b>
 		              </a>
-		              <ul class="dropdown-menu" >
-		                  <li><a href="/bluewhale/menu">日报系统</a></li>
-		                  <li class="divider"></li>
-		                  <li><a href="#">分离的链接</a></li>
-		                  <li class="divider"></li>
-		                  <li><a href="#">另一个分离的链接</a></li>
-		              </ul>
-		          </li>
+		          </li> -->
 		          
-<!--                   <li><a href="/bluewhale/module/moduleHome">Features</a></li> -->
-                  <li><a href="#">Contact</a></li>
+                  <li><a href="/bluewhale/config">Config</a></li>
+                  <li><a href="/bluewhale/contact">Contact</a></li>
                 </ul>
               </nav>
             </div>
           </div>
 
-          <div class="inner cover" style="margin-bottom: 0">
+          <div class="inner " style="margin-bottom: 0">
             <!-- <h1 class="cover-heading">Cover your page.</h1>
             <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
             <p class="lead">
               <a href="#" class="btn btn-lg btn-default">Learn more</a>
             </p> -->
-            <div id="myCarousel" class="carousel slide" >
+            <div id="myCarousel" class="carousel slide" style="height: 450px;width: 60%;float:left">
 			    <!-- 轮播（Carousel）指标 -->
 			    <ol class="carousel-indicators">
 			        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -87,6 +80,71 @@
 			    <a class="carousel-control right" href="#myCarousel" 
 			       data-slide="next"> <span _ngcontent-c3="" aria-hidden="true" class="glyphicon glyphicon-chevron-right"></span></a>
 		    </div>
+		    
+		    <div style="height: 450px;width: 35%;float:right">
+		    	
+		    	<form action="/signIn" id="signInForm">
+		    		<h2>Sign In</h2>
+					<div class="form-group">
+						<label for="username" class="sr-only">Username</label>
+						<input type="text" class="form-control" id="username" placeholder="Username" autocomplete="off">
+					</div>
+					<div class="form-group">
+						<label for="password" class="sr-only">Password</label>
+						<input type="password" class="form-control" id="password" placeholder="Password" autocomplete="off">
+					</div>
+					<div class="form-group">
+						<label for="remember"><input type="checkbox" id="remember"> Remember Me</label>
+					</div>
+					<div class="form-group">
+						<p>Not registered? <a href="#" onclick="pageJump('signUp')">Sign Up</a> | <a href="#" onclick="pageJump('forgot')">Forgot Password?</a></p>
+					</div>
+					<div class="form-group">
+						<input type="submit" value="Sign In" class="btn btn-primary">
+					</div>
+				</form>
+				<form action="/signUp" style="display:none" id="signUpForm">
+					<h2>Sign Up</h2>
+					<div class="form-group">
+						<label for="name" class="sr-only">Name</label>
+						<input type="text" class="form-control" id="name" placeholder="Name" autocomplete="off">
+					</div>
+					<div class="form-group">
+						<label for="email" class="sr-only">Email</label>
+						<input type="email" class="form-control" id="email" placeholder="Email" autocomplete="off">
+					</div>
+					<div class="form-group">
+						<label for="password" class="sr-only">Password</label>
+						<input type="password" class="form-control" id="password" placeholder="Password" autocomplete="off">
+					</div>
+					<div class="form-group">
+						<label for="re-password" class="sr-only">Re-type Password</label>
+						<input type="password" class="form-control" id="re-password" placeholder="Re-type Password" autocomplete="off">
+					</div>
+					<div class="form-group">
+						<p>Already registered? <a href="#" onclick="pageJump('signIn')">Sign In</a></p>
+					</div>
+					<div class="form-group">
+						<input type="submit" value="Sign Up" class="btn btn-primary">
+					</div>
+				</form>
+				<form action="/forgot" style="display:none" id="forgotForm">
+					<h2>Forgot Password</h2>
+					<div class="form-group" id="fotgotTip" style="display:none">
+						<div class="alert alert-success" role="alert">Your email has been sent.</div>
+					</div>
+					<div class="form-group">
+						<label for="email" class="sr-only">Email</label>
+						<input type="email" class="form-control" id="email" placeholder="Email" autocomplete="off">
+					</div>
+					<div class="form-group">
+						<p><a href="#" onclick="pageJump('signIn')">Sign In</a> or <a href="#" onclick="pageJump('signUp')">Sign Up</a></p>
+					</div>
+					<div class="form-group">
+						<input type="submit" value="Send Email" class="btn btn-primary">
+					</div>
+				</form>
+		    </div>
           </div>
           
 
@@ -105,4 +163,5 @@
     </div>
 	
   </body>
+  <script type="text/javascript" src="js/index.js"></script>
 </html>

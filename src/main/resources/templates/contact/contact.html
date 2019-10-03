@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+	<!-- 设置ico标签栏logo图标 -->
+	<link rel="icon" href="img/logo/blueWhaleLogo1.5.png"/>
+    <title>Blue Whale</title>
+
+    <head th:include="include/includebase" />
+    <link th:href="@{/bootstrap-3.3.7/css/cover.css}" rel="stylesheet"/>
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+	<div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="masthead clearfix" style="position:absolute;z-index:12;">
+          	<div style="margin:12px 20px"><h2 class="masthead-brand" >Blue Whale</h2></div>
+          	
+            <div class="inner" style="width:90%">
+              <nav>
+                <ul class="nav masthead-nav">
+                  <li><a href="/bluewhale">Home</a></li>
+                  <li><a href="/bluewhale/menu">Daily</a></li>
+                  <li><a href="/bluewhale/config">Config</a></li>
+                  <li class="active"><a href="/bluewhale/contact">Contact</a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+
+          <div class="inner cover" style="margin-bottom: 0">
+			
+          </div>
+          
+
+          <div class="mastfoot">
+            
+            <div class="inner">
+              <hr />
+              <p> ©2019-2020 BlueWhale.Inc All Rights Reserved</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+	
+  </body>
+</html>

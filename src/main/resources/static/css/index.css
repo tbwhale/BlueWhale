@@ -1,0 +1,7 @@
+@charset "UTF-8";
+.control-label {
+	width: 50px
+}
+.animate-box {
+  opacity: 0;
+}

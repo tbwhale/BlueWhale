@@ -52,5 +52,19 @@ public class MenuDispatchController {
 		ModelAndView mView = new ModelAndView("projectWR/projectWR");
 		return mView;
 	}
+	
+	//跳转项目周报页面
+	@RequestMapping("/config")
+	public ModelAndView config() {
+		ModelAndView mView = new ModelAndView("config/config");
+		return mView;
+	}
+		
+	//跳转项目周报页面
+	@RequestMapping("/contact")
+	public ModelAndView contact() {
+		ModelAndView mView = new ModelAndView("contact/contact");
+		return mView;
+	}
 
 }
