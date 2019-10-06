@@ -1,7 +1,5 @@
 package com.bluewhale.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,10 +22,10 @@ public class MenuDispatchController {
 		return mView;
 	}
 
-	//跳转写日报页面
-	@RequestMapping("/writeDailyNewspaper")
+	//跳转日报管理页面
+	@RequestMapping("/dailyNewspaper")
 	public ModelAndView writeDailyNewspaper() {
-		ModelAndView mView = new ModelAndView("dailyNewspaper/writeDailyNewspaper");
+		ModelAndView mView = new ModelAndView("dailyNewspaper/dailyNewspaper");
 		return mView;
 	}
 

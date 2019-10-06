@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <!-- 设置ico标签栏logo图标 -->
+    <link rel="icon" href="img/logo/blueWhaleLogo1.5.png"/>
+    <title>Blue Whale</title>
+
+    <head th:include="include/includebase"/>
+    <!--<link th:href="@{/bootstrap-3.3.7/css/cover.css}" rel="stylesheet"/>-->
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+
+
+    <!--模态框样式-->
+    <style type="text/css">
+        .modal-header {
+            padding: 0;
+        }
+
+        /*.modal-content{border-radius: 0;}*/
+        .modal-dialog .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+        }
+
+        .modal-dialog h3 {
+            font-size: 14px;
+            height: 42px;
+            line-height: 42px;
+            margin: 0;
+            padding: 0 80px 0 20px;
+        }
+
+        .modal-dialog label {
+            font-weight: 400;
+        }
+
+        .tips {
+            line-height: 34px;
+            font-size: 13px;
+        }
+
+        .tips span {
+            color: red;
+        }
+
+        @media (min-width: 1080px) {
+            /*模态框-距顶部距离*/
+            .modal-dialog {
+                margin-top: 100px;
+            }
+
+            .col-sm-6 {
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+        }
+    </style>
+
+</head>
+<body>
+<!--定义导航栏-->
+<div class="navigation_div">
+    <span class="font_heading1">日报&gt;&gt;<a href="/bluewhale/dailyNewspaper">日报管理</a></span>
+</div>
+
+<div class="tableBody">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            日报查询条件
+        </div>
+        <div class="panel-body form-group" style="margin-bottom:0px;">
+            <label class="col-sm-1 control-label" style="text-align: right; margin-top:5px">姓名：</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" name="name" id="searchName"/>
+            </div>
+            <label class="col-sm-1 control-label" for="queryDate" style="text-align: right; margin-top:5px">日期：</label>
+            <!--指定 date标记-->
+            <div class='col-sm-2 input-group date' id='datetimepicker1'>
+                <input type="text" class="form-control" placeholder="查询日期" id="queryDate" style="color: #000"/>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+
+            <div class="col-sm-4 pull-right">
+                <button class="btn btn-primary" id="search_btn">查询</button>
+            </div>
+            <!--<div class="col-sm-4 pull-right">-->
+            <!--<input type="button" class="btn btn-primary" value="查询">-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+
+<!--日报展示 (后续改为动态查询展示)-->
+<table class="table table-bordered">
+    <caption>&nbsp;&emsp;日报信息</caption>
+    <thead>
+    <tr>
+        <!--style="text-align:center;/** 设置水平方向居中 */vertical-align:middle/** 设置垂直方向居中 */-->
+        <th width="4%" style="text-align:center;vertical-align:middle">编号</th>
+        <th width="5%" style="text-align:center;vertical-align:middle">日期</th>
+        <th width="6%" style="text-align:center;vertical-align:middle">任务来源</th>
+        <th width="5%" style="text-align:center;vertical-align:middle">任务名称</th>
+        <th width="40%" style="text-align:center;vertical-align:middle">描述</th>
+        <th width="5%" style="text-align:center;vertical-align:middle">任务状态</th>
+        <th width="5%" style="text-align:center;vertical-align:middle">工时</th>
+        <th width="6%" style="text-align:center;vertical-align:middle">对应需求或BUG号</th>
+        <th width="5%" style="text-align:center;vertical-align:middle">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>1</td>
+        <td>2019/10/2</td>
+        <td>项目计划</td>
+        <td>8-其它</td>
+        <td>检查约定年金领取年龄变更上线版本（应用和DB）</td>
+        <td>完成</td>
+        <td>3</td>
+        <td>XQ-4787</td>
+        <td>
+            <a href='javascript:;' class='btn btn-xs blue' data-toggle="modal" data-target="#myModal"
+               onclick="EditViewById()" title='编辑'>
+                <span class='glyphicon glyphicon-pencil'></span></a>
+            <a href='javascript:;' class='btn btn-xs red' onclick="DeleteByIds()" title='删除'>
+                <span class='glyphicon glyphicon-remove'></span></a>
+        </td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>2019/10/2</td>
+        <td>项目计划</td>
+        <td>3-开发</td>
+        <td>重算保费接口返回保额参数数据类型修改，并进行测试</td>
+        <td>完成</td>
+        <td>2</td>
+        <td>XQ-4787</td>
+        <td>
+            <a href='javascript:;' class='btn btn-xs blue' data-toggle="modal" data-target="#myModal"
+               onclick="EditViewById()" title='编辑'>
+                <span class='glyphicon glyphicon-pencil'></span></a>
+            <a href='javascript:;' class='btn btn-xs red' onclick="DeleteByIds()" title='删除'>
+                <span class='glyphicon glyphicon-remove'></span></a>
+        </td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>2019/10/2</td>
+        <td>项目计划</td>
+        <td>5-测试</td>
+        <td>测试应收调整接口</td>
+        <td>完成</td>
+        <td>3</td>
+        <td>XQ-5013</td>
+        <td>
+            <a href='javascript:;' class='btn btn-xs blue' data-toggle="modal" data-target="#myModal"
+               onclick="EditViewById()" title='编辑'>
+                <span class='glyphicon glyphicon-pencil'></span></a>
+            <a href='javascript:;' class='btn btn-xs red' onclick="DeleteByIds()" title='删除'>
+                <span class='glyphicon glyphicon-remove'></span></a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!--新增日报-->
+<div id="toolbar" class="btn-group pull-right" style="margin-right: 20px;">
+    <button id="btn_add" type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增日报
+    </button>
+</div>
+
+
+<!--新增日报模态框 [begin]-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="form-horizontal" autocomplete="off" action="#">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">x</button>
+                    <h3>新增日报</h3>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="num" class="col-sm-2 control-label">编号
+                            <span style="color: red">*</span>
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="num" placeholder="输入数字编号">
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newspaperDate" class="col-sm-2 control-label">日期
+                            <span style="color: red">*</span>
+                        </label>
+                        <div class="col-sm-6 input-group date">
+                            <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="newspaperDate">
+                            <span class="input-group-addon">
+			                    <span class="glyphicon glyphicon-calendar"></span>
+			                </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskSource1" class="col-sm-2 control-label">任务来源
+                            <span style="color: red">*</span>
+                        </label>
+                        <div class="col-sm-6">
+                            <select name="cars" id="taskSource1" class="form-control">
+                                <option value="source1" selected>项目计划</option>
+                                <option value="source2">临时任务</option>
+                                <option value="source3">BUG</option>
+                            </select>
+                        </div>
+                        <!--<div class="col-sm-4 tips"><span>* </span>必填</div>-->
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskName" class="col-sm-2 control-label">任务名称
+                            <span style="color: red">*</span>
+                        </label>
+                        <div class="col-sm-6">
+                            <select name="cars" id="taskName" class="form-control">
+                                <option value="taskName1">1-需求</option>
+                                <option value="taskName2">2-设计</option>
+                                <option value="taskName3" selected>3-开发</option>
+                                <option value="taskName4">4-运维</option>
+                                <option value="taskName5">5-测试</option>
+                                <option value="taskName6">6-配置</option>
+                                <option value="taskName7">7-编写手册</option>
+                                <option value="taskName8">8-其它</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskDescription" class="col-sm-2 control-label">任务描述
+                            <span style="color: red">*</span>
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="taskDescription" placeholder="请输入日报描述">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskStatus" class="col-sm-2 control-label">任务状态
+                            <span style="color: red">*</span>
+                        </label>
+                        <div class="col-sm-6">
+                            <select name="cars" id="taskStatus" class="form-control">
+                                <option value="taskStatus1" selected>正常进行</option>
+                                <option value="taskStatus2">延迟</option>
+                                <option value="taskStatus3">完成</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskHour" class="col-sm-2 control-label">工时
+                            <span style="color: red">*</span>
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="taskHour" placeholder="(人/天)">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="xqNo" class="col-sm-2 control-label">对应需求或BUG号
+                            <span style="color: red">*</span>
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="xqNo" placeholder="输入需求或BUG号">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit">保存</button>
+                    <button class="btn btn-info" data-dismiss="modal">关闭</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<!--新增日报模态框 [end]-->
+
+
+<script>
+    // 日期选择js
+    $('.date').datetimepicker({//选择年月日
+        format: 'yyyy-mm-dd',
+        language: 'zh-CN',
+        weekStart: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,  //Number, String. 默认值：0, 'hour'，日期时间选择器所能够提供的最精确的时间选择视图。
+        clearBtn: true,//清除按钮
+
+        forceParse: 0
+    });
+
+    // $(function () {
+    //     window.top.parent.dropdownFun();
+    //     //函数dropdownFun()为官方文档中的$(‘#dropdown’).on('show.bs.dropdown', function(){ ··· ··· })
+    // });
+
+</script>
+
+</body>
+</html>
