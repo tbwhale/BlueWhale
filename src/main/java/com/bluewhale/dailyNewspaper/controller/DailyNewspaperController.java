@@ -1,6 +1,7 @@
 package com.bluewhale.dailyNewspaper.controller;
 
-import com.bluewhale.customerWR.service.CustomerWRService;
+import com.bluewhale.dailyNewspaper.mybatis.entity.DailyInfo;
+import com.bluewhale.dailyNewspaper.service.DailyInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class DailyNewspaperController {
 	@Value("${bluewhale.customerWR.downloadPath}")
 	private String downloadPath;
 	@Autowired
-	private CustomerWRService customerWRService;
+	private DailyInfoService dailyInfoService;
 
 	/**
 	 * 写日报
@@ -37,9 +38,11 @@ public class DailyNewspaperController {
 	public String conformAndDownload(HttpServletResponse response) {
 		try {
 			logger.info("日报提交");
+			DailyInfo dailyInfo = dailyInfoService.getDailyInfoById(1);
+			logger.info("日报信息：" + dailyInfo.getTaskDescription());
 		}catch (Exception e){
 			e.printStackTrace();
-			logger.error("上传Excel文件整合客户周报异常，异常信息："+e.getMessage());
+			logger.error("日报提交异常，异常信息："+e.getMessage());
 		}
 		return "200";
 	}

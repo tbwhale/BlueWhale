@@ -1,23 +1,43 @@
 #开发配置文件
-server :  
+server:
   #服务启动端口
-  port :  8080
+  port:  8080
   #配置默认访问路径
   servlet:
     context-path: /bluewhale
 
+mybatis :
+  type-aliases-package : com.bluewhale.*.mybatis.entity
+  mapper-locations : classpath*:mybatis/mapper/*.xml,classpath*:com/bluewhale/dailyNewspaper/mybatis/sqlMap/*Mapper.xml
+  config-location : classpath:mybatis/mybatis-config.xml
+
 spring:
+  ### blueWhale, datasource
+  datasource:
+    url: jdbc:mysql://192.168.1.106:3306/bluewhale?Unicode=true&characterEncoding=UTF-8
+    username: dev
+    password: dev
+    driver-class-name: com.mysql.jdbc.Driver
+
+  type: org.apache.tomcat.jdbc.pool.DataSource
+  tomcat:
+    max-wait: 10000
+    max-active: 30
+    test-on-borrow: true
+    validation-query: SELECT 1
+    validation-interval: 30000
+
   #thymeleaf模板配置
   thymeleaf:
     prefix: classpath:/templates/
     #prefix: /templates/
     suffix: .html
-    #mode: HTML5
-    #encoding: UTF-8
-    #servlet:
-      #content-type: text/html
+      #mode: HTML5
+      #encoding: UTF-8
+      #servlet:
+    #content-type: text/html
     cache: false
-    
+
   #邮件发送配置
   mail:
     #邮件服务地址
@@ -48,9 +68,9 @@ logback:
   appname: BlueWhaleDev
   #日志输出文件路径
   logdir: /Users/curtin/Library/Log
- 
- 
- 
+
+
+
 #系统常量定义
 bluewhale:
   #邮件地址

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluewhale.dailyNewspaper.mybatis.mapper.DailyInfoMapper" >
+    <resultMap id="BaseResultMap" type="com.bluewhale.dailyNewspaper.mybatis.entity.DailyInfo" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="empName" property="empName" jdbcType="VARCHAR" />
+        <result column="taskDescription" property="taskDescription" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <!--<sql id="Base_Column_List" >-->
+        <!--id, userName, userAge-->
+    <!--</sql>-->
+
+    <!--<select id="getUserList" resultMap="BaseResultMap"  >-->
+        <!--SELECT-->
+        <!--<include refid="Base_Column_List" />-->
+        <!--FROM user_test-->
+    <!--</select>-->
+    <!--id,emp_name empName,task_description taskDescription-->
+
+    <select id="getDailyInfoById" parameterType="java.lang.Integer" resultType="com.bluewhale.dailyNewspaper.mybatis.entity.DailyInfo">
+        SELECT
+        *
+        FROM daily_info
+        WHERE id = #{id}
+    </select>
+
+
+    <!--<insert id="add" parameterType="com.wisely.demo.bean.User" >-->
+        <!--INSERT INTO-->
+        <!--user_test-->
+        <!--(userName,userAge)-->
+        <!--VALUES-->
+        <!--(#{userName}, #{userAge})-->
+    <!--</insert>-->
+
+    <!--<update id="update" parameterType="java.util.Map" >-->
+        <!--UPDATE-->
+        <!--user_test-->
+        <!--SET-->
+        <!--userName = #{user.userName},userAge = #{user.userAge}-->
+        <!--WHERE-->
+        <!--id = #{id}-->
+    <!--</update>-->
+
+    <!--<delete id="delete" parameterType="java.lang.Integer" >-->
+        <!--DELETE FROM-->
+        <!--user_test-->
+        <!--WHERE-->
+        <!--id = #{id}-->
+    <!--</delete>-->
+</mapper>

@@ -1,5 +1,6 @@
 package com.bluewhale;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -13,7 +14,10 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * @Date 2019-03-10 12:28:46
  * @version v1.0.0
  */
-@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
+
+@MapperScan("com.bluewhale.*.mybatis.mapper")
+//@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
+@SpringBootApplication
 public class BlueWhaleApplication {
 
 	private static final Logger log = LoggerFactory.getLogger(BlueWhaleApplication.class);
