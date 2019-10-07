@@ -71,37 +71,35 @@
 <body>
 <!--定义导航栏-->
 <div class="navigation_div">
-    <span class="font_heading1">日报&gt;&gt;<a href="/bluewhale/dailyNewspaper">日报管理</a></span>
+    <span class="font_heading1">日报&gt;&gt;<a href="/bluewhale/nextWeekPlan">下周计划</a></span>
 </div>
 
 <div class="tableBody">
     <div class="panel panel-default">
         <div class="panel-heading">
-            日报查询条件
+            下周计划查询条件
         </div>
         <div class="panel-body form-group" style="margin-bottom:0px;">
-            <label class="col-sm-1 control-label" style="text-align: right; margin-top:5px">姓名：</label>
+            <label class="col-sm-1 control-label" style="text-align: right; margin-top:5px">责任人：</label>
             <div class="col-sm-2">
                 <input type="text" class="form-control" name="name" id="searchName"/>
             </div>
 
-            <!--<label class="col-sm-1 control-label" for="queryDate" style="text-align: right; margin-top:5px">日期：</label>-->
-            <!--&lt;!&ndash;指定 date标记&ndash;&gt;-->
-            <!--<div class='col-sm-2 input-group date' id='datetimepicker1'>-->
-            <!--<input type="text" class="form-control" placeholder="YYYY-MM-DD" id="queryDate" style="color: #000"/>-->
-            <!--<span class="input-group-addon">-->
-            <!--<span class="glyphicon glyphicon-calendar"></span>-->
-            <!--</span>-->
-            <!--</div>-->
-
-            <label class="col-sm-2 control-label" for="queryDate"
-                   style="text-align: right; margin-top:5px">日期：</label>
-            <div class='col-sm-2 ' id='datetimepicker2'>
-                <input type="text" class="form-control date" placeholder="YYYY-MM-DD" id="queryDate"
+            <label class="col-sm-2 control-label" for="queryStartDate"
+                   style="text-align: right; margin-top:5px">开始日期：</label>
+            <div class='col-sm-2' id='datetimepicker1'>
+                <input type="text" class="form-control date" placeholder="YYYY-MM-DD" id="queryStartDate"
                        style="color: #000"/>
             </div>
 
-            <div class="col-sm-4 pull-right">
+            <label class="col-sm-2 control-label" for="queryEndDate"
+                   style="text-align: right; margin-top:5px">结束日期：</label>
+            <div class='col-sm-2 ' id='datetimepicker2'>
+                <input type="text" class="form-control date" placeholder="YYYY-MM-DD" id="queryEndDate"
+                       style="color: #000"/>
+            </div>
+
+            <div class="col-sm-1 pull-right">
                 <button class="btn btn-primary" id="search_btn">查询</button>
             </div>
             <!--<div class="col-sm-4 pull-right">-->
@@ -114,67 +112,34 @@
 <!--分割线 两头渐变透明-->
 <hr style="filter: alpha(opacity=100,finishopacity=0,style=3)" width="100%" color="#000" size="3"/>
 
-<!--日报展示 (后续改为动态查询展示)-->
+<!--下周计划展示 (后续改为动态查询展示)-->
 <table class="table table-bordered">
-    <caption>&nbsp;&emsp;日报信息</caption>
+    <caption>&nbsp;&emsp;下周计划信息</caption>
     <thead>
     <tr>
         <!--style="text-align:center;/** 设置水平方向居中 */vertical-align:middle/** 设置垂直方向居中 */-->
-        <th width="4%" style="text-align:center;vertical-align:middle">编号</th>
-        <th width="5%" style="text-align:center;vertical-align:middle">日期</th>
-        <th width="6%" style="text-align:center;vertical-align:middle">任务来源</th>
-        <th width="5%" style="text-align:center;vertical-align:middle">任务名称</th>
-        <th width="40%" style="text-align:center;vertical-align:middle">描述</th>
-        <th width="5%" style="text-align:center;vertical-align:middle">任务状态</th>
-        <th width="5%" style="text-align:center;vertical-align:middle">工时</th>
-        <th width="6%" style="text-align:center;vertical-align:middle">对应需求或BUG号</th>
+        <th width="6%" style="text-align:center;vertical-align:middle">需求和任务编号</th>
+        <th width="5%" style="text-align:center;vertical-align:middle">类型</th>
+        <th width="40%" style="text-align:center;vertical-align:middle">任务名称</th>
+        <th width="5%" style="text-align:center;vertical-align:middle">计划开始日期</th>
+        <th width="5%" style="text-align:center;vertical-align:middle">计划结束日期</th>
+        <th width="5%" style="text-align:center;vertical-align:middle">工作量估计(人/天)</th>
+        <th width="5%" style="text-align:center;vertical-align:middle">责任人</th>
+        <th width="5%" style="text-align:center;vertical-align:middle">备注</th>
         <th width="5%" style="text-align:center;vertical-align:middle">操作</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td>1</td>
-        <td>2019/10/2</td>
-        <td>项目计划</td>
-        <td>8-其它</td>
-        <td>检查约定年金领取年龄变更上线版本（应用和DB）</td>
-        <td>完成</td>
-        <td>3</td>
         <td>XQ-4787</td>
-        <td>
-            <a href='javascript:;' class='btn btn-xs blue' data-toggle="modal" data-target="#myModal"
-               onclick="EditViewById()" title='编辑'>
-                <span class='glyphicon glyphicon-pencil'></span></a>
-            <a href='javascript:;' class='btn btn-xs red' onclick="DeleteByIds()" title='删除'>
-                <span class='glyphicon glyphicon-remove'></span></a>
-        </td>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>2019/10/2</td>
-        <td>项目计划</td>
         <td>3-开发</td>
-        <td>重算保费接口返回保额参数数据类型修改，并进行测试</td>
-        <td>完成</td>
-        <td>2</td>
-        <td>XQ-4787</td>
-        <td>
-            <a href='javascript:;' class='btn btn-xs blue' data-toggle="modal" data-target="#myModal"
-               onclick="EditViewById()" title='编辑'>
-                <span class='glyphicon glyphicon-pencil'></span></a>
-            <a href='javascript:;' class='btn btn-xs red' onclick="DeleteByIds()" title='删除'>
-                <span class='glyphicon glyphicon-remove'></span></a>
-        </td>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>2019/10/2</td>
-        <td>项目计划</td>
-        <td>5-测试</td>
-        <td>测试应收调整接口</td>
-        <td>完成</td>
-        <td>3</td>
-        <td>XQ-5013</td>
+        <td>实收回退开发</td>
+        <td>2019/9/9</td>
+        <td>2019/9/12</td>
+        <td>4</td>
+        <td>刘柯廷</td>
+        <td></td>
+
         <td>
             <a href='javascript:;' class='btn btn-xs blue' data-toggle="modal" data-target="#myModal"
                onclick="EditViewById()" title='编辑'>
@@ -186,63 +151,36 @@
     </tbody>
 </table>
 
-<!--新增日报-->
+<!--新增下周计划按钮-->
 <div id="toolbar" class="btn-group pull-right" style="margin-right: 20px;">
     <button id="btn_add" type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增日报
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增下周计划
     </button>
 </div>
 
 
-<!--新增日报模态框 [begin]-->
+<!--新增下周计划模态框 [begin]-->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form class="form-horizontal" autocomplete="off" action="#">
                 <div class="modal-header">
                     <button class="close" data-dismiss="modal">x</button>
-                    <h3>新增日报</h3>
+                    <h3>新增下周计划</h3>
                 </div>
                 <div class="modal-body">
 
                     <div class="form-group">
-                        <label for="num" class="col-sm-2 control-label">编号
+                        <label for="taskNo" class="col-sm-2 control-label">需求和任务编号
                             <span style="color: red">*</span>
                         </label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id="num" placeholder="输入数字编号">
-                        </div>
-
-                    </div>
-
-                    <div class="form-group">
-                        <label for="newspaperDate" class="col-sm-2 control-label">日期
-                            <span style="color: red">*</span>
-                        </label>
-                        <div class="col-sm-6 input-group date">
-                            <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="newspaperDate">
-                            <span class="input-group-addon">
-			                    <span class="glyphicon glyphicon-calendar"></span>
-			                </span>
+                            <input type="text" class="form-control" id="taskNo" placeholder="输入需求和任务编号">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="taskSource1" class="col-sm-2 control-label">任务来源
-                            <span style="color: red">*</span>
-                        </label>
-                        <div class="col-sm-6">
-                            <select name="cars" id="taskSource1" class="form-control">
-                                <option value="source1" selected>项目计划</option>
-                                <option value="source2">临时任务</option>
-                                <option value="source3">BUG</option>
-                            </select>
-                        </div>
-                        <!--<div class="col-sm-4 tips"><span>* </span>必填</div>-->
-                    </div>
-
-                    <div class="form-group">
-                        <label for="taskName" class="col-sm-2 control-label">任务名称
+                        <label for="taskName" class="col-sm-2 control-label">类型
                             <span style="color: red">*</span>
                         </label>
                         <div class="col-sm-6">
@@ -260,29 +198,40 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="taskDescription" class="col-sm-2 control-label">任务描述
+                        <label for="taskDescription" class="col-sm-2 control-label">任务名称
                             <span style="color: red">*</span>
                         </label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id="taskDescription" placeholder="请输入日报描述">
+                            <input type="text" class="form-control" id="taskDescription" placeholder="请输入任务名称">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="taskStatus" class="col-sm-2 control-label">任务状态
+                        <label for="planStartDate" class="col-sm-2 control-label">计划开始日期
                             <span style="color: red">*</span>
                         </label>
-                        <div class="col-sm-6">
-                            <select name="cars" id="taskStatus" class="form-control">
-                                <option value="taskStatus1" selected>正常进行</option>
-                                <option value="taskStatus2">延迟</option>
-                                <option value="taskStatus3">完成</option>
-                            </select>
+                        <div class="col-sm-6 input-group date">
+                            <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="planStartDate">
+                            <span class="input-group-addon">
+			                    <span class="glyphicon glyphicon-calendar"></span>
+			                </span>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="taskHour" class="col-sm-2 control-label">工时
+                        <label for="planEndDate" class="col-sm-2 control-label">计划结束日期
+                            <span style="color: red">*</span>
+                        </label>
+                        <div class="col-sm-6 input-group date">
+                            <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="planEndDate">
+                            <span class="input-group-addon">
+			                    <span class="glyphicon glyphicon-calendar"></span>
+			                </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskHour" class="col-sm-2 control-label">工作量估计
                             <span style="color: red">*</span>
                         </label>
                         <div class="col-sm-6">
@@ -291,11 +240,20 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="xqNo" class="col-sm-2 control-label">对应需求或BUG号
+                        <label for="taskMan" class="col-sm-2 control-label">责任人
                             <span style="color: red">*</span>
                         </label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id="xqNo" placeholder="输入需求或BUG号">
+                            <input type="text" class="form-control" id="taskMan" placeholder="输入责任人姓名">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="planComment" class="col-sm-2 control-label">备注
+                            <span style="color: red">&emsp;</span>
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="planComment" placeholder="">
                         </div>
                     </div>
 
@@ -309,7 +267,7 @@
         </div>
     </div>
 </div>
-<!--新增日报模态框 [end]-->
+<!--新增下周计划模态框 [end]-->
 
 
 <script>

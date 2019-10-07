@@ -24,10 +24,17 @@ public class MenuDispatchController {
 
 	//跳转日报管理页面
 	@RequestMapping("/dailyNewspaper")
-	public ModelAndView writeDailyNewspaper() {
+	public ModelAndView dailyNewspaper() {
 		ModelAndView mView = new ModelAndView("dailyNewspaper/dailyNewspaper");
 		return mView;
 	}
+
+    //跳转下周计划页面
+    @RequestMapping("/nextWeekPlan")
+    public ModelAndView nextWeekPlan() {
+        ModelAndView mView = new ModelAndView("nextWeekPlan/nextWeekPlan");
+        return mView;
+    }
 
 
 	//跳转模块周报页面
