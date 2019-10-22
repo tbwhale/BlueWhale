@@ -64,8 +64,16 @@
         </style>
     </head>
     <body>
-        <div class="header">
-            <h2 class="masthead-brand">Blue Whale</h2>
+        <div style="margin:12px 20px"><h2 class="masthead-brand" >Blue Whale</h2></div>
+        <div class="inner" style="width:90%">
+            <nav>
+                <ul class="nav masthead-nav">
+                    <li><a href="/bluewhale">Home</a></li>
+                    <li class="active"><a href="/bluewhale/menu">Daily</a></li>
+                    <li><a href="/bluewhale/config">Config</a></li>
+                    <li><a href="/bluewhale/contact">Contact</a></li>
+                </ul>
+            </nav>
         </div>
         <div class="menu">
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -110,15 +118,14 @@
                     </div>
                 </div>
             </div>
-            <div class="menumastfoot" style="color: #999;font-size: 12px;position: fixed;bottom: 0;width: 15%">
+            <!--<div class="menumastfoot" style="color: #999;font-size: 12px;position: fixed;bottom: 0;width: 15%">
                 <hr/>
                 <p>©2019-2020 BlueWhale.Inc All Rights Reserved</p>
-            </div>
+            </div>-->
         </div>
 
         <!-- 嵌套网页  onload="changeFrameHeight()"-->
         <iframe name="my_iframe" id="my_frame" src="javascript:void(0);" frameborder="0" scrolling="no"></iframe>
-
         <script type="text/javascript">
             // 作用是为了保证iframe中右侧页面的高度，使之和浏览器客户端高度一致
             $(function () {
@@ -131,15 +138,15 @@
                 $("#my_frame").attr('src', menuUrl);
             };
 
-            //     	function changeFrameHeight(){
-            //             var iframe= document.getElementById("my_frame");
-            //             iframe.height= 0;   //这里必须要先设置成0，不然后面会有问题
-            //             iframe.height=iframe.contentWindow.document.body.scrollHeight;
-            //         }
+                	function changeFrameHeight(){
+                        var iframe= document.getElementById("my_frame");
+                        iframe.height= 0;   //这里必须要先设置成0，不然后面会有问题
+                        iframe.height=iframe.contentWindow.document.body.scrollHeight;
+                    }
 
             //监听浏览器窗口变换，这里采用jquery，不然在ie中会出现问题
             $(window).resize(function () {
-                changeFrameHeight();
+              changeFrameHeight();
             });
             $("#closeBtn").click(function () {
                 $(".menu").toggle(500, function () {
