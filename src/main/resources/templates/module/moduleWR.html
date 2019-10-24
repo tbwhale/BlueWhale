@@ -48,16 +48,16 @@
                 <input id="conformAndDownload" type="submit" class="btn btn-lg btn-default" value="整合下载"/>
                 <!--</form>-->
 
-                <hr/>
-                <!--<h2>整合周报</h2>-->
-                <!--<div>-->
-                <!--<input type="text" placeholder="所属项目组" id="conformTeam" style="color: #000"/>-->
-                <!--<input type="text" class="date" placeholder="开始日期" id="conformStart" style="color: #000"/>-->
-                <!--<input type="text" class="date" placeholder="终止日期" id="conformEnd" style="color: #000"/>-->
-                <!--<input id="conform" type="submit" class="btn btn-lg btn-default" value="整合"/>-->
-                <!--</div>-->
-                <!---->
-                <!--<hr />-->
+                <!--<hr/>
+                <h2>整合周报</h2>
+                <div>
+                <input type="text" placeholder="所属项目组" id="conformTeam" style="color: #000"/>
+                <input type="text" class="date" placeholder="开始日期" id="conformStart" style="color: #000"/>
+                <input type="text" class="date" placeholder="终止日期" id="conformEnd" style="color: #000"/>
+                <input id="conform" type="submit" class="btn btn-lg btn-default" value="整合"/>
+                </div>
+
+                <hr />-->
 
             </div>
 
@@ -107,7 +107,7 @@
     $('#conform').click(function () {
         $.ajax({
             type: 'POST',
-            url: '/bluewhale/module/conform',
+            url: '/bluewhale/dailyNewspaper/dailyNewspaperSubmit',
             data: {
                 team: $('#conformTeam').val(),
                 start: $('#conformStart').val(),

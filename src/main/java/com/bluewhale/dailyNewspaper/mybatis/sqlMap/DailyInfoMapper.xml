@@ -20,9 +20,22 @@
 
     <select id="getDailyInfoById" parameterType="java.lang.Integer" resultType="com.bluewhale.dailyNewspaper.mybatis.entity.DailyInfo">
         SELECT
-        *
-        FROM daily_info
-        WHERE id = #{id}
+			id,
+			emp_no empNo,
+			d.emp_name empName,
+			d.daily_num dailyNum,
+			d.is_valid isValid,
+			d.task_description taskDescription,
+			d.task_hour taskHour,
+			d.task_name taskName,
+			d.task_no taskNo,
+			d.task_source taskSource,
+			d.task_status taskStatus,
+			d.daily_date dailyDate
+		FROM
+			daily_info d
+		WHERE
+			id = #{id}
     </select>
 
 
