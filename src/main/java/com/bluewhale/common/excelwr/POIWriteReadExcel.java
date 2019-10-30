@@ -10,31 +10,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFDateUtil;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CellValue;
-import org.apache.poi.ss.usermodel.FillPatternType;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellRangeAddressList;
 import org.apache.poi.ss.util.WorkbookUtil;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.*;
 
 import com.bluewhale.common.excelwr.entity.ExcelSheetPO;
 import com.bluewhale.common.excelwr.entity.ExcelVersion;
 import com.bluewhale.common.util.FileUtil;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTDataValidation;
 
 
 /**
@@ -327,6 +314,8 @@ public class POIWriteReadExcel {
             OutputStream outStream, boolean closeStream) throws IOException {
         if (CollectionUtils.isNotEmpty(excelSheets)) {
             Workbook wb = createWorkBook(version, excelSheets);
+            String[] datas = new String[]{"1-需求","2-设计","3-开发","4-运维","5-测试","6-","7-","8-"};
+            wb = dropDownList(wb,datas,1);
             wb.write(outStream);
             if (closeStream) {
                 outStream.close();
@@ -466,8 +455,8 @@ public class POIWriteReadExcel {
       
         for (int i = 0; i < headers.length && i < version.getMaxColumn(); i++) {
             Cell cellHeader = row.createCell(i);
-            cellHeader.setCellStyle(getStyle(STYLE_HEADER, wb));
-//            cellHeader.getCellStyle().cloneStyleFrom(getStyle(STYLE_HEADER, wb));
+//            cellHeader.setCellStyle(getStyle(STYLE_HEADER, wb));
+            cellHeader.getCellStyle().cloneStyleFrom(getStyle(STYLE_HEADER, wb));
             cellHeader.setCellValue(headers[i]);
         }
     }
@@ -489,7 +478,8 @@ public class POIWriteReadExcel {
         sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, column-1));
         Row titleRow = sheet.createRow(0);
         Cell createCell = titleRow.createCell(0);
-        createCell.setCellStyle(getStyle(STYLE_TITLE, wb));
+//        createCell.setCellStyle(getStyle(STYLE_TITLE, wb));
+        createCell.getCellStyle().cloneStyleFrom(getStyle(STYLE_TITLE, wb));
         createCell.setCellValue(excelSheetPO.getTitle());
         for (int i = 1; i < column; i++) {
         	Cell nullCell = titleRow.createCell(i);
@@ -572,10 +562,50 @@ public class POIWriteReadExcel {
     private static Workbook createWorkbook(ExcelVersion version) {
         switch (version) {
         case V2003:
-            return new HSSFWorkbook();
+              return new HSSFWorkbook();
         case V2007:
             return new XSSFWorkbook();
         }
         return null;
+    }
+
+    private static Workbook dropDownList(Workbook wb, String[] datas, int hiddenSheetIndex) {
+
+        CellStyle style = wb.createCellStyle();
+        style.setDataFormat(HSSFDataFormat.getBuiltinFormat("0"));
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setVerticalAlignment(VerticalAlignment.CENTER);
+
+        for (int i = 0; i < wb.getNumberOfSheets(); i++) {
+            Sheet sheet = wb.getSheetAt(i);
+            int startRow = 2;
+            int endRow = sheet.getLastRowNum();
+            Row sheetRow = sheet.getRow(1);
+            int column = 0;
+            for (int k = 0; k < sheetRow.getLastCellNum() - 1; k++) {
+                if ("任务类型".equals(sheetRow.getCell(k).getStringCellValue()) || "类型".equals(sheetRow.getCell(k).getStringCellValue())) {
+                    column = k;
+                    break;
+                }
+            }
+            DataValidationHelper helper = sheet.getDataValidationHelper();
+            DataValidationConstraint constraint = helper.createExplicitListConstraint(datas);
+            CellRangeAddressList addressList = null;
+            DataValidation validation = null;
+            for (int j = startRow; j <= endRow; j++) {
+
+                addressList = new CellRangeAddressList(i, i, column, column);
+                validation = helper.createValidation(constraint, addressList);
+                validation.setSuppressDropDownArrow(true);
+                if (validation instanceof XSSFDataValidation) {
+                    validation.setShowErrorBox(true);
+                }
+                sheet.addValidationData(validation);
+            }
+
+
+        }
+
+        return wb;
     }
 }

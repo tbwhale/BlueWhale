@@ -95,19 +95,6 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 		}
 		//周报整合
 		List<ExcelSheetPO> weeklyInfo = weeklyFormat(allDailyEntities, team, startDate, endDate);
-//		Workbook workbook = null;
-//		Workbook workbook = POIWriteReadExcel.createWorkbook(ExcelVersion.V2007,weeklyInfo);
-//		if ("批处理".equals(team)){
-//			downloadPath = downloadPath + "/BATCH";
-//		} else if ("新契约".equals(team)){
-//			downloadPath = downloadPath + "/UW";
-//		} else if ("续期".equals(team)){
-//			downloadPath = downloadPath + "/RN";
-//		} else if ("保全".equals(team)){
-//			downloadPath = downloadPath + "/POS";
-//		} else if ("理赔".equals(team)){
-//			downloadPath = downloadPath + "/CLAIM";
-//		}
 
 		File downloads = new File(downloadPath);
 
@@ -134,9 +121,9 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 	 */
 	@Override
 	public String conformWeeklyInfo(String uploadPath, String team, String start, String end) throws FileNotFoundException, IOException {
-		
+
 		logger.info("整合周报开始");
-		
+
 		List<PersonAndDailyEntity> allDailyEntities = new ArrayList<PersonAndDailyEntity>();
 		String readpath = uploadPath;
 		File dirFile = new File(readpath);
@@ -161,7 +148,7 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 						break;
 					}
 				}
-			} 
+			}
 			if (!existFlag) {
 				PersonAndDailyEntity entity = new PersonAndDailyEntity();
 				entity.setPersonName(personname);
@@ -171,18 +158,18 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 		}
 		//周报整合
 		List<ExcelSheetPO> weeklyInfo = weeklyFormat(allDailyEntities, team, start, end);
-		
+
 		File downloads = new File(downloadPath);
-		
+
 		if (!downloads.exists()) {
 			downloads.mkdirs();
 		}
-		
+
 		String fileNameDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
 		String filePathAndName = downloads+"\\LI-HuaXia-PMC-项目周报-"+fileNameDate+"-"+team+".xlsx";
-		
+
 		POIWriteReadExcel.createWorkbookAtDisk(ExcelVersion.V2003, weeklyInfo, filePathAndName);
-		
+
 		logger.info("整合周报结束");
 		return filePathAndName;
 	}
