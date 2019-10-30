@@ -51,12 +51,18 @@ CREATE TABLE `staff_info` (
   `birth_date` date DEFAULT NULL COMMENT '生日',
   `phone` varchar(30) DEFAULT NULL COMMENT '固定电话',
   `mobile` varchar(30) DEFAULT NULL COMMENT '移动电话',
+  `urgent_contact_phone` varchar(30) DEFAULT NULL COMMENT '紧急联系电话',
   `home_address` varchar(300) DEFAULT NULL COMMENT '家庭地址',
   `postcode` varchar(30) DEFAULT NULL COMMENT '邮编',
+  `department` varchar(100) DEFAULT NULL COMMENT '部门',
+  `proteam_code` varchar(10) DEFAULT NULL COMMENT '项目组代码',
   `hire_date` date DEFAULT NULL COMMENT '入司时间',
   `reg_date` date DEFAULT NULL COMMENT '转正时间',
   `leave_date` date DEFAULT NULL COMMENT '离职时间',
+  `contract` char(10) DEFAULT NULL COMMENT '合同号',
   `postition` varchar(50) DEFAULT NULL COMMENT '职务',
+  `education` varchar(10) DEFAULT NULL COMMENT '学历',
+  `school` varchar(50) DEFAULT NULL COMMENT '学校名称',
   `is_valid` varchar(1) DEFAULT 'Y' COMMENT '是否有效(Y-有效;N-失效)',
   `created_user` varchar(100) NOT NULL DEFAULT 'system' COMMENT '创建人',
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -69,8 +75,8 @@ CREATE TABLE `staff_info` (
 -- Records of staff_info
 -- ----------------------------
 BEGIN;
-INSERT INTO  `staff_info`(`id`, `emp_no`, `emp_name`, `sex_code`, `birth_date`, `phone`, `mobile`, `home_address`, `postcode`, `hire_date`, `reg_date`, `leave_date`, `postition`, `is_valid`, `created_user`, `created_date`, `updated_user`, `updated_date`)
-VALUES (1, 1, '刘柯廷', '0', '2019-10-07', NULL, '17611226015', '和泓四季', '123123', '2019-10-07', NULL, NULL, NULL, 'N', 'system', '2019-10-07 17:13:34', 'liuketing', '2019-10-07 17:39:43');
+INSERT INTO  `staff_info`(`id`, `emp_no`, `emp_name`, `sex_code`, `birth_date`, `phone`, `mobile`,`urgent_contact_phone`, `home_address`, `postcode`,`department`,`proteam_code`, `hire_date`, `reg_date`, `leave_date`,`contract`, `postition`,`education`,`school`, `is_valid`, `created_user`, `created_date`, `updated_user`, `updated_date`)
+VALUES (1, 1, '刘柯廷', '0', '2019-10-07', NULL, '17611226015',NULL, '和泓四季', '123123',NULL, NULL,'2019-10-07', NULL, NULL, NULL,NULL,NULL,NULL, 'N', 'system', '2019-10-07 17:13:34', 'liuketing', '2019-10-07 17:39:43');
 COMMIT;
 
 -- ----------------------------
