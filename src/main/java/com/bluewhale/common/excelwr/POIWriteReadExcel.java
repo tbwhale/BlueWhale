@@ -315,7 +315,7 @@ public class POIWriteReadExcel {
         if (CollectionUtils.isNotEmpty(excelSheets)) {
             Workbook wb = createWorkBook(version, excelSheets);
             String[] datas = new String[]{"1-需求","2-设计","3-开发","4-运维","5-测试","6-","7-","8-"};
-            wb = dropDownList(wb,datas,1);
+            wb = dropDownList(wb,datas,3);
             wb.write(outStream);
             if (closeStream) {
                 outStream.close();
@@ -455,8 +455,8 @@ public class POIWriteReadExcel {
       
         for (int i = 0; i < headers.length && i < version.getMaxColumn(); i++) {
             Cell cellHeader = row.createCell(i);
-//            cellHeader.setCellStyle(getStyle(STYLE_HEADER, wb));
-            cellHeader.getCellStyle().cloneStyleFrom(getStyle(STYLE_HEADER, wb));
+            cellHeader.setCellStyle(getStyle(STYLE_HEADER, wb));
+//            cellHeader.getCellStyle().cloneStyleFrom(getStyle(STYLE_HEADER, wb));
             cellHeader.setCellValue(headers[i]);
         }
     }
@@ -478,8 +478,8 @@ public class POIWriteReadExcel {
         sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, column-1));
         Row titleRow = sheet.createRow(0);
         Cell createCell = titleRow.createCell(0);
-//        createCell.setCellStyle(getStyle(STYLE_TITLE, wb));
-        createCell.getCellStyle().cloneStyleFrom(getStyle(STYLE_TITLE, wb));
+        createCell.setCellStyle(getStyle(STYLE_TITLE, wb));
+//        createCell.getCellStyle().cloneStyleFrom(getStyle(STYLE_TITLE, wb));
         createCell.setCellValue(excelSheetPO.getTitle());
         for (int i = 1; i < column; i++) {
         	Cell nullCell = titleRow.createCell(i);
@@ -580,6 +580,9 @@ public class POIWriteReadExcel {
             Sheet sheet = wb.getSheetAt(i);
             int startRow = 2;
             int endRow = sheet.getLastRowNum();
+            if (endRow < startRow) {
+				endRow = 100;
+			}
             Row sheetRow = sheet.getRow(1);
             int column = 0;
             for (int k = 0; k < sheetRow.getLastCellNum() - 1; k++) {
@@ -592,16 +595,16 @@ public class POIWriteReadExcel {
             DataValidationConstraint constraint = helper.createExplicitListConstraint(datas);
             CellRangeAddressList addressList = null;
             DataValidation validation = null;
-            for (int j = startRow; j <= endRow; j++) {
+//            for (int j = startRow; j <= endRow; j++) {
 
-                addressList = new CellRangeAddressList(i, i, column, column);
+                addressList = new CellRangeAddressList(startRow, endRow, column, column);
                 validation = helper.createValidation(constraint, addressList);
-                validation.setSuppressDropDownArrow(true);
-                if (validation instanceof XSSFDataValidation) {
-                    validation.setShowErrorBox(true);
-                }
+//                validation.setSuppressDropDownArrow(true);
+//                if (validation instanceof XSSFDataValidation) {
+//                    validation.setShowErrorBox(true);
+//                }
                 sheet.addValidationData(validation);
-            }
+//            }
 
 
         }
