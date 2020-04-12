@@ -18,6 +18,44 @@ spring:
     username: dev
     password: dev
     driver-class-name: com.mysql.jdbc.Driver
+    platform: mysql
+    # 下面为连接池的补充设置，应用到上面所有数据源中
+    #通过这句配置将druid连接池引入到我们的配置中，spring会尽可能判断类型是什么，然后根据情况去匹配驱动类。
+    type: com.alibaba.druid.pool.DruidDataSource
+    # druid相关配置
+    druid:
+      # 初始化连接个数
+      initialSize: 3
+      # 最小空闲连接个数
+      minIdle: 3
+      # 最大连接个数
+      maxActive: 20
+      # 获取连接时最大等待时间，单位毫秒
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 30000
+      # 用来检测连接是否有效的sql，要求是一个查询语句。
+      validationQuery: SELECT 'X'
+      # 建议配置为true，不影响性能，并且保证安全性。如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      testWhileIdle: true
+      # 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+      testOnBorrow: false
+      # 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+      testOnReturn: false
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      # 是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql下建议关闭。
+      poolPreparedStatements: true
+      # 要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。在Druid中，不会存在Oracle下PSCache占用内存过多的问题，可以把这个数值配置大一些，比如说100
+      maxPoolPreparedStatementPerConnectionSize: 20
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      # 通过别名的方式配置扩展插件，常用的插件有：监控统计用的filter:stat，日志用的filter:log4j，防御sql注入的filter:wall
+      filters: stat,wall,slf4j
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      # 合并多个DruidDataSource的监控数据
+      useGlobalDataSourceStat: false
 
   type: org.apache.tomcat.jdbc.pool.DataSource
   tomcat:
@@ -81,19 +119,19 @@ bluewhale:
   #Excel文件上传下载地址
   #模块周报
   moduleWR:
-    uploadPath: D:/BlueWhale/moduleWR/uploads
-    downloadPath: D:/BlueWhale/moduleWR/downloads
-#    uploadPath: /Users/curtin/bluewhale/moduleWR/uploads
-#    downloadPath: /Users/curtin/bluewhale/moduleWR/downloads
+    #    uploadPath: D:/BlueWhale/moduleWR/uploads
+    #    downloadPath: D:/BlueWhale/moduleWR/downloads
+    uploadPath: /Users/curtin/bluewhale/moduleWR/uploads
+    downloadPath: /Users/curtin/bluewhale/moduleWR/downloads
   #客户周报
   customerWR:
-    uploadPath: D:/BlueWhale/customerWR/uploads
-    downloadPath: D:/BlueWhale/customerWR/downloads
-#    uploadPath: /Users/curtin/bluewhale/customerWR/uploads
-#    downloadPath: /Users/curtin/bluewhale/customerWR/downloads
+    #    uploadPath: D:/BlueWhale/customerWR/uploads
+    #    downloadPath: D:/BlueWhale/customerWR/downloads
+    uploadPath: /Users/curtin/bluewhale/customerWR/uploads
+    downloadPath: /Users/curtin/bluewhale/customerWR/downloads
   #项目周报
   projectWR:
-    uploadPath: D:/BlueWhale/projectWR/uploads
-    downloadPath: D:/BlueWhale/projectWR/downloads
-#    uploadPath: /Users/curtin/bluewhale/projectWR/uploads
-#    downloadPath: /Users/curtin/bluewhale/projectWR/downloads
+    #    uploadPath: D:/BlueWhale/projectWR/uploads
+    #    downloadPath: D:/BlueWhale/projectWR/downloads
+    uploadPath: /Users/curtin/bluewhale/projectWR/uploads
+    downloadPath: /Users/curtin/bluewhale/projectWR/downloads

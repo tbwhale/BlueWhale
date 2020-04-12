@@ -13,8 +13,9 @@
 	<groupId>com.example</groupId>
 	<artifactId>BlueWhale</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>BlueWhale</name>
-	<description>Demo project for Spring Boot</description>
+	<description>BlueWhale project for Spring Boot</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -43,18 +44,19 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
+		<!-- mybatis -->
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>2.0.0</version>
 		</dependency>
-
+		<!-- mysql -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+
 		<!-- 测试组件 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -79,6 +81,20 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
+
+		<!-- 监控组件 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<!--引入阿里巴巴数据源配置-->
+		<!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.1.21</version>
+		</dependency>
 	</dependencies>
 	
 	<build>
@@ -92,10 +108,13 @@
 
 		<resources>
 			<resource>
+				<!-- 指定resources插件处理哪个目录下的资源文件 -->
 				<directory>src/main/java</directory>
 				<includes>
 					<include>**/*.xml</include>
 				</includes>
+				<!-- filtering为true的时候，这时只会把过滤的文件（<excludes>）打到classpath下，
+                 filtering为false的时候，会把不需要过滤的文件（<includes>）打到classpath下 -->
 				<filtering>false</filtering>
 			</resource>
 			<resource>
