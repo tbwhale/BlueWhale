@@ -14,7 +14,7 @@ mybatis :
 spring:
   ### blueWhale, datasource
   datasource:
-    url: jdbc:mysql://192.168.1.106:3306/bluewhale?Unicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://127.0.0.1:3306/bluewhale?Unicode=true&characterEncoding=UTF-8
     username: dev
     password: dev
     driver-class-name: com.mysql.jdbc.Driver
@@ -105,7 +105,7 @@ logback:
   #日志输出使用的项目名称
   appname: BlueWhaleDev
   #日志输出文件路径
-  logdir: /Users/curtin/Library/Log
+  logdir: D:/BlueWhale/Log
 
 
 
@@ -119,19 +119,19 @@ bluewhale:
   #Excel文件上传下载地址
   #模块周报
   moduleWR:
-    #    uploadPath: D:/BlueWhale/moduleWR/uploads
-    #    downloadPath: D:/BlueWhale/moduleWR/downloads
-    uploadPath: /Users/curtin/bluewhale/moduleWR/uploads
-    downloadPath: /Users/curtin/bluewhale/moduleWR/downloads
+    uploadPath: D:/BlueWhale/moduleWR/uploads
+    downloadPath: D:/BlueWhale/moduleWR/downloads
+    #uploadPath: /Users/curtin/bluewhale/moduleWR/uploads
+    #downloadPath: /Users/curtin/bluewhale/moduleWR/downloads
   #客户周报
   customerWR:
-    #    uploadPath: D:/BlueWhale/customerWR/uploads
-    #    downloadPath: D:/BlueWhale/customerWR/downloads
-    uploadPath: /Users/curtin/bluewhale/customerWR/uploads
-    downloadPath: /Users/curtin/bluewhale/customerWR/downloads
+    uploadPath: D:/BlueWhale/customerWR/uploads
+    downloadPath: D:/BlueWhale/customerWR/downloads
+    #uploadPath: /Users/curtin/bluewhale/customerWR/uploads
+    #downloadPath: /Users/curtin/bluewhale/customerWR/downloads
   #项目周报
   projectWR:
-    #    uploadPath: D:/BlueWhale/projectWR/uploads
-    #    downloadPath: D:/BlueWhale/projectWR/downloads
-    uploadPath: /Users/curtin/bluewhale/projectWR/uploads
-    downloadPath: /Users/curtin/bluewhale/projectWR/downloads
+    uploadPath: D:/BlueWhale/projectWR/uploads
+    downloadPath: D:/BlueWhale/projectWR/downloads
+    #uploadPath: /Users/curtin/bluewhale/projectWR/uploads
+    #downloadPath: /Users/curtin/bluewhale/projectWR/downloads
