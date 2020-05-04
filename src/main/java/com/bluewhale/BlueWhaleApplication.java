@@ -28,17 +28,10 @@ public class BlueWhaleApplication {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		long startTimestamp = System.currentTimeMillis();
-		log.info("BlueWhale项目开始加载...");
 		SpringApplication.run(BlueWhaleApplication.class, args);
 		log.info("\n" 
 				+ "~~~~~~~~~~~~~~~~~BlueWhale~~~~~~~~~~~~~~~~~  \n" 
-				+ "          佛祖保佑         永无BUG  \n" + "\n"
-				+ "     佛曰:  \n" 
-				+ "            道路千万条，注释第一条；  \n" 
-				+ "            代码不规范，亲人两行泪。  \n"
-				+ "~~~~~~~~~~~~~~~~~BlueWhale~~~~~~~~~~~~~~~~~  \n" 
-				+ "BlueWhale项目加载完毕！cost {} million seconds \n",System.currentTimeMillis() - startTimestamp);
+				);
 	}
 
 }
