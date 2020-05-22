@@ -495,9 +495,10 @@ public class POIWriteReadExcel {
      */
     private static CellStyle getStyle(String type, Workbook wb) {
 
-        if (cellStyleMap.containsKey(type)) {
-            return cellStyleMap.get(type);
-        }
+        // modify by zhisj 去掉这行代码，否则项目会在第二次导出周报时报错
+//        if (cellStyleMap.containsKey(type)) {
+//            return cellStyleMap.get(type);
+//        }
         // 生成一个样式
         CellStyle style = null;
         if (wb instanceof HSSFWorkbook){
