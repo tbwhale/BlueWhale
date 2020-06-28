@@ -72,4 +72,11 @@ public class MenuDispatchController {
 		return mView;
 	}
 
+	//跳转测试页面
+	@RequestMapping("/test1")
+	public ModelAndView test1() {
+		ModelAndView mView = new ModelAndView("test1");
+		return mView;
+	}
+
 }

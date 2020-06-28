@@ -52,16 +52,32 @@ public class POIWriteReadExcel {
      * @throws FileNotFoundException
      * @throws IOException
      */
-	public static List<ExcelSheetPO> readExcel(String file,Integer rowCount,Integer columnCount) throws FileNotFoundException, IOException {
+	public static List<ExcelSheetPO> readExcel(String file,Integer rowCount,Integer columnCount) {
 		// 根据后缀名称判断excel的版本
         String extName = FileUtil.getFileExtName(file);
         Workbook wb = null;
         if (ExcelVersion.V2003.getSuffix().equals(extName)) {
-        	wb = new HSSFWorkbook(new FileInputStream(file));
-
+            try {
+                wb = new HSSFWorkbook(new FileInputStream(file));
+            }catch (Exception e){
+                e.printStackTrace();
+                try {
+                    wb = new XSSFWorkbook(new FileInputStream(file));
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
         } else if (ExcelVersion.V2007.getSuffix().equals(extName)) {
-        	wb = new XSSFWorkbook(new FileInputStream(file));
-
+            try {
+                wb = new XSSFWorkbook(new FileInputStream(file));
+            }catch (Exception e){
+                e.printStackTrace();
+                try {
+                    wb = new HSSFWorkbook(new FileInputStream(file));
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
         } else {
             // 无效后缀名称，这里之能保证excel的后缀名称，不能保证文件类型正确，不过没关系，在创建Workbook的时候会校验文件格式
             throw new IllegalArgumentException("Invalid excel version");
@@ -120,17 +136,34 @@ public class POIWriteReadExcel {
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public static List<ExcelSheetPO> readExcelByInputStream(InputStream inputStream,String fileName, Integer rowCount, Integer columnCount) throws FileNotFoundException, IOException {
+    public static List<ExcelSheetPO> readExcelByInputStream(InputStream inputStream,String fileName, Integer rowCount, Integer columnCount) {
         // 根据后缀名称判断excel的版本
         String extName = FileUtil.getFileExtName(fileName);
+
         Workbook wb = null;
         FileInputStream fileInputStream = (FileInputStream)inputStream ;
         if (ExcelVersion.V2003.getSuffix().equals(extName)) {
-            wb = new HSSFWorkbook(fileInputStream);
-
+            try {
+                wb = new HSSFWorkbook(fileInputStream);
+            }catch (Exception e){
+                e.printStackTrace();
+                try {
+                    wb = new XSSFWorkbook(fileInputStream);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
         } else if (ExcelVersion.V2007.getSuffix().equals(extName)) {
-            wb = new XSSFWorkbook(fileInputStream);
-
+            try {
+                wb = new XSSFWorkbook(fileInputStream);
+            }catch (Exception e){
+                e.printStackTrace();
+                try {
+                    wb = new HSSFWorkbook(fileInputStream);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
         } else {
             // 无效后缀名称，这里之能保证excel的后缀名称，不能保证文件类型正确，不过没关系，在创建Workbook的时候会校验文件格式
             throw new IllegalArgumentException("Invalid excel version");
@@ -314,7 +347,7 @@ public class POIWriteReadExcel {
             OutputStream outStream, boolean closeStream) throws IOException {
         if (CollectionUtils.isNotEmpty(excelSheets)) {
             Workbook wb = createWorkBook(version, excelSheets);
-            String[] datas = new String[]{"1-需求","2-设计","3-开发","4-运维","5-测试","6-","7-","8-"};
+            String[] datas = new String[]{"1-需求","2-设计","3-开发","4-运维","5-测试","6-配置","7-编写手册","8-其它"};
             wb = dropDownList(wb,datas,3);
             wb.write(outStream);
             if (closeStream) {
@@ -606,7 +639,6 @@ public class POIWriteReadExcel {
 //                }
                 sheet.addValidationData(validation);
 //            }
-
 
         }
 

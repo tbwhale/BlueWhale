@@ -96,7 +96,32 @@ public class EmailController {
         }
 		return message.toString();
 	}
-	
+    /**
+     * 发送含附件邮件（服务器用）
+     * @return String
+     */
+    @RequestMapping("/sendFileEmail")
+    @ResponseBody
+    public String sendFileEmail() {
+        Messages message = new Messages();
+        String[] receiver = {"curtin@aliyun.com"};
+        String[] carbonCopy = null;
+        String FILE_PATH = "/home/weblogic/installdir/liuketing/bluewhale/api-gateway.sh";
+        String subject = "This is an send file email";
+        String content = "<h2>This is an send file email</h2>";
+        boolean isHtml = true;
+
+        File file = new File(FILE_PATH);
+        String fileName = FILE_PATH.substring(FILE_PATH.lastIndexOf(File.separator));
+
+        try {
+            message = emailService.sendAttachmentFileEmail(receiver, carbonCopy, subject, content, isHtml, fileName, file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return message.toString();
+    }
+
 	/**
 	 * 发送模板邮件
 	 * @return String
