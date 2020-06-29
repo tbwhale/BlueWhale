@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.bluewhale.common.excelwr.entity.ExcelHeaders;
+import com.bluewhale.common.util.DateUtil;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -256,16 +257,18 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 						try {
 							//获取下周一日期
 							startDate  = sdf.parse(start);
-							endDate  = sdf.parse(end);
-							Calendar startCal = Calendar.getInstance();
-							startCal.setTime(startDate);
-							startCal.add(Calendar.DATE, 7);
-							startDate = startCal.getTime();
+//							endDate  = sdf.parse(end);
+//							Calendar startCal = Calendar.getInstance();
+//							startCal.setTime(startDate);
+//							startCal.add(Calendar.DATE, 7);
+//							startDate = startCal.getTime();
+							startDate = DateUtil.getNextMonday(startDate);
 							//获取下周五日期
-							Calendar endCal = Calendar.getInstance();
-							endCal.setTime(endDate);
-							endCal.add(Calendar.DATE, 7);
-							endDate = endCal.getTime();
+//							Calendar endCal = Calendar.getInstance();
+//							endCal.setTime(endDate);
+//							endCal.add(Calendar.DATE, 7);
+//							endDate = endCal.getTime();
+							endDate = DateUtil.getNextFriday(startDate);
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
