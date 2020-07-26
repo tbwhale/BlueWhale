@@ -10,4 +10,4 @@ logback:
   #日志输出使用的项目名称
   appname: BlueWhaleProd
   #日志输出文件路径
-  logdir: /Users/curtin/Library/Log
+  logdir: ../logs/bluewhale

@@ -36,7 +36,8 @@
 			<!-- %line——行数 -->
 			<!-- %msg——日志消息 -->
 			<!-- %n——平台的换行符 -->
-			<pattern>%d %contextName [%thread] %-5level %logger{36} %line : %msg%n</pattern>
+			<!--<pattern>%d %contextName [%thread] %-5level %logger{36} %line : %msg%n</pattern>-->
+			<pattern>[@@][%d][%contextName][%thread][%-5level][%logger{36} %line] : %msg%n</pattern>
 		</layout>
 	</appender>
 
@@ -82,7 +83,7 @@
 			<!-- %line——行数 -->
 			<!-- %msg——日志消息 -->
 			<!-- %n——平台的换行符 -->
-			<pattern>%d %contextName [%thread] %-5level %logger{36} %line : %msg%n</pattern>
+			<pattern>[@@][%d][%contextName][%thread][%-5level][%logger{36} %line] : %msg%n</pattern>
 		</encoder>
 	</appender>
 	
@@ -122,7 +123,7 @@
 			<!-- %line——行数 -->
 			<!-- %msg——日志消息 -->
 			<!-- %n——平台的换行符 -->
-			<pattern>%d %contextName [%thread] %-5level %logger{36} %line : %msg%n</pattern>
+			<pattern>[@@][%d][%contextName][%thread][%-5level][%logger{36} %line] : %msg%n</pattern>
 		</encoder>
 	</appender>
 	
@@ -159,7 +160,7 @@
 			<!-- %line——行数 -->
 			<!-- %msg——日志消息 -->
 			<!-- %n——平台的换行符 -->
-			<pattern>%d %contextName [%thread] %-5level %logger{36} %line : %msg%n</pattern>
+			<pattern>[@@][%d][%contextName][%thread][%-5level][%logger{36} %line] : %msg%n</pattern>
 		</encoder>
 	</appender>
 
@@ -181,7 +182,7 @@
 	<!-- 开发环境. 多个使用逗号隔开 -->
 	<springProfile name="dev">
 		<logger name="com.bluewhale.spring.boot.controller" level="INFO" additivity="false">
-			<!-- <appender-ref ref="consoleLog" /> -->
+			 <appender-ref ref="consoleLog" />
 			<appender-ref ref="fileInfoLog" />
 			<appender-ref ref="fileErrorLog" />
 			<appender-ref ref="fileAllLog" />
@@ -190,7 +191,7 @@
 	<!-- 生产环境. -->
 	<springProfile name="prod">
 		<logger name="com.bluewhale.spring.boot.controller" level="INFO" additivity="false">
-			<!-- <appender-ref ref="consoleLog" /> -->
+			 <appender-ref ref="consoleLog" />
 			<appender-ref ref="fileInfoLog" />
 			<appender-ref ref="fileErrorLog" />
 			<appender-ref ref="fileAllLog" />

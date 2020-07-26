@@ -99,7 +99,7 @@ public final class StringHelper {
 		if (length == 0) {
 			return EMPTY_STRING;
 		}
-		StringBuffer buf = new StringBuffer(length * strings[0].length()).append(strings[0]);
+		StringBuilder buf = new StringBuilder(length * strings[0].length()).append(strings[0]);
 		for (int i = 1; i < length; i++) {
 			buf.append(seperator).append(strings[i]);
 		}
@@ -116,7 +116,7 @@ public final class StringHelper {
 	 * @return 字符串
 	 */
 	public static String join(String seperator, Iterator<?> objects) {
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 		if (objects.hasNext()) {
 			buf.append(objects.next());
 		}
@@ -155,7 +155,7 @@ public final class StringHelper {
 	 * @return 生成后的字符串
 	 */
 	public static String repeat(String string, int times) {
-		StringBuffer buf = new StringBuffer(string.length() * times);
+		StringBuilder buf = new StringBuilder(string.length() * times);
 		for (int i = 0; i < times; i++) {
 			buf.append(string);
 		}
@@ -174,7 +174,7 @@ public final class StringHelper {
 	 * @return 替换处理后的字符串
 	 */
 	public static String replace(String source, String old, String replace) {
-		StringBuffer output = new StringBuffer();
+		StringBuilder output = new StringBuilder();
  
 		int sourceLen = source.length();
 		int oldLen = old.length();
@@ -395,7 +395,7 @@ public final class StringHelper {
 	 */
 	public static boolean booleanValue(String tfString) {
 		String trimmed = tfString.trim().toLowerCase();
-		return trimmed.equals("true") || trimmed.equals("t");
+		return "true".equals(trimmed) || "t".equals(trimmed);
 	}
  
 	/**
@@ -410,7 +410,7 @@ public final class StringHelper {
 		if (len == 0) {
 			return StringHelper.EMPTY_STRING;
 		}
-		StringBuffer buf = new StringBuffer(len * FIANL_TWELVE);
+		StringBuilder buf = new StringBuilder(len * FIANL_TWELVE);
 		for (int i = 0; i < len - 1; i++) {
 			buf.append(array[i]).append(StringHelper.COMMA_SPACE);
 		}
@@ -450,9 +450,9 @@ public final class StringHelper {
 	private static String[] multiply(String[] strings, String placeholder, String[] replacements) {
 		String[] results = new String[replacements.length * strings.length];
 		int n = 0;
-		for (int i = 0; i < replacements.length; i++) {
-			for (int j = 0; j < strings.length; j++) {
-				results[n++] = replaceOnce(strings[j], placeholder, replacements[i]);
+		for (String replacement : replacements) {
+			for (String string : strings) {
+				results[n++] = replaceOnce(string, placeholder, replacement);
 			}
 		}
 		return results;
@@ -686,7 +686,7 @@ public final class StringHelper {
 			length -= 2;
 		}
  
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 		int count = 0;
 		for (int i = 0; i < strLength; i++) {
 			if (count >= length) { // 取完了
@@ -725,7 +725,7 @@ public final class StringHelper {
 	 */
 	public static boolean isLetter(char c) {
 		int k = HEX_80;
-		return c / k == 0 ? true : false;
+		return c / k == 0;
 	}
  
 	/**
@@ -738,8 +738,8 @@ public final class StringHelper {
 	public static int byteLength(String s) {
 		char[] c = s.toCharArray();
 		int len = 0;
-		for (int i = 0; i < c.length; i++) {
-			if (isLetter(c[i])) {
+		for (char aC : c) {
+			if (isLetter(aC)) {
 				len++;
 			} else {
 				len += 2;
@@ -859,7 +859,7 @@ public final class StringHelper {
 			return null;
 		}
  
-		String html = new String(str);
+		String html = str;
  
 		html = replace(html, "\"", "\\\"");
 		html = replace(html, "\r\n", "\n");
@@ -943,7 +943,7 @@ public final class StringHelper {
 		if (source == null) {
 			return null;
 		}
-		String html = new String(source);
+		String html = source;
 		html = replace(html, "<", "&lt;");
 		html = replace(html, ">", "&gt;");
 		html = replace(html, "\"", "&quot;");
@@ -975,7 +975,7 @@ public final class StringHelper {
 			return null;
 		}
  
-		String html = new String(source);
+		String html = source;
  
 		html = replace(html, "&", "&amp;");
 		html = replace(html, "<", "&lt;");
@@ -998,7 +998,7 @@ public final class StringHelper {
 			return null;
 		}
  
-		String html = new String(source);
+		String html = source;
  
 		html = replace(html, "&amp;", "&");
 		html = replace(html, "&lt;", "<");
@@ -1022,7 +1022,7 @@ public final class StringHelper {
 	 * @return 返回字符串的布尔值
 	 */
 	public static boolean isBoolean(String source) {
-		if (source.equalsIgnoreCase("true") || source.equalsIgnoreCase("false")) {
+		if ("true".equalsIgnoreCase(source) || "false".equalsIgnoreCase(source)) {
 			return true;
 		}
 		return false;
@@ -1064,7 +1064,7 @@ public final class StringHelper {
 		String patternStr = "(<[^>]*>)";
 		Pattern pattern = Pattern.compile(patternStr, Pattern.CASE_INSENSITIVE);
 		Matcher matcher = null;
-		StringBuffer bf = new StringBuffer();
+		StringBuilder bf = new StringBuilder();
 		try {
 			matcher = pattern.matcher(html);
 			boolean first = true;
@@ -1210,7 +1210,7 @@ public final class StringHelper {
 		if (isBlank(date) || date.length() < 8) {
 			return "";
 		}
-		StringBuffer dateBuf = new StringBuffer();
+		StringBuilder dateBuf = new StringBuilder();
 		dateBuf.append(date.substring(0, 4));
 		dateBuf.append("-");
 		dateBuf.append(date.substring(4, 6));
@@ -1383,8 +1383,8 @@ public final class StringHelper {
 	 */
 	public static String join(String[] strs, String sep) {
 		StringBuilder res = new StringBuilder();
-		for (int i = 0; i < strs.length; i++) {
-			res.append(strs[i] + sep);
+		for (String str : strs) {
+			res.append(str).append(sep);
 		}
 		return res.substring(0, res.length() - sep.length());
 	}
@@ -1432,7 +1432,7 @@ public final class StringHelper {
 			char[] arr_cNew = strNew.toCharArray();
  
 			int intOldLen = strOld.length();
-			StringBuffer buf = new StringBuffer(arr_cSrc.length);
+			StringBuilder buf = new StringBuilder(arr_cSrc.length);
 			buf.append(arr_cSrc, 0, i).append(arr_cNew);
  
 			i += intOldLen;
@@ -1468,12 +1468,12 @@ public final class StringHelper {
 		}
  
 		char[] arr_cSrc = strSrc.toCharArray();
-		StringBuffer buf = new StringBuffer(arr_cSrc.length);
+		StringBuilder buf = new StringBuilder(arr_cSrc.length);
 		char ch;
- 
-		for (int i = 0; i < arr_cSrc.length; i++) {
-			ch = arr_cSrc[i];
- 
+
+		for (char anArr_cSrc : arr_cSrc) {
+			ch = anArr_cSrc;
+
 			if (ch == '<') {
 				buf.append("&lt;");
 			} else if (ch == '>') {
@@ -1513,11 +1513,11 @@ public final class StringHelper {
 		}
  
 		char[] arr_cSrc = strSrc.toCharArray();
-		StringBuffer buf = new StringBuffer(arr_cSrc.length);
+		StringBuilder buf = new StringBuilder(arr_cSrc.length);
 		char ch;
- 
-		for (int i = 0; i < arr_cSrc.length; i++) {
-			ch = arr_cSrc[i];
+
+		for (char anArr_cSrc : arr_cSrc) {
+			ch = anArr_cSrc;
 			if (ch == '<') {
 				buf.append("&lt;");
 			} else if (ch == '>') {
@@ -1570,8 +1570,7 @@ public final class StringHelper {
 			} else {
 				str = str.trim();
 				str = new String(str.getBytes("ISO8859_1"), "GBK");
-				String htmlEncode = htmlEncode(str, quotes);
-				return htmlEncode;
+				return htmlEncode(str, quotes);
 			}
 		} catch (Exception exp) {
 			return "";
@@ -1589,7 +1588,7 @@ public final class StringHelper {
 		if (str == null) {
 			return "&nbsp;";
 		}
-		else if (str.equals("")) {
+		else if ("".equals(str)) {
 			return "&nbsp;";
 		} else {
 			return str;
