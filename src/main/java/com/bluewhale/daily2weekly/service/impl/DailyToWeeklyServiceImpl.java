@@ -256,19 +256,19 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 						Date endDate  = null;
 						try {
 							//获取下周一日期
-							startDate  = sdf.parse(start);
+							Date startD  = sdf.parse(start);
 //							endDate  = sdf.parse(end);
 //							Calendar startCal = Calendar.getInstance();
 //							startCal.setTime(startDate);
 //							startCal.add(Calendar.DATE, 7);
 //							startDate = startCal.getTime();
-							startDate = DateUtil.getNextMonday(startDate);
+							startDate = DateUtil.getNextMonday(startD);
 							//获取下周五日期
 //							Calendar endCal = Calendar.getInstance();
 //							endCal.setTime(endDate);
 //							endCal.add(Calendar.DATE, 7);
 //							endDate = endCal.getTime();
-							endDate = DateUtil.getNextFriday(startDate);
+							endDate = DateUtil.getNextFriday(startD);
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
