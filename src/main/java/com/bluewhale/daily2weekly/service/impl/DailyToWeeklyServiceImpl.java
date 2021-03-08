@@ -199,6 +199,8 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 			logger.equals(personName);
 			List<ExcelSheetPO> dailyDataLists = personAndDailyEntity.getDailyDataLists();
 			for (ExcelSheetPO excelSheetPO : dailyDataLists) {
+				String date = new SimpleDateFormat("yyyy-MM").format(new Date()) + "-" + ExcelSheetFormat.sheetNameFormat(excelSheetPO.getSheetName());
+
 				for (int i = 0; i < excelSheetPO.getDataList().size(); i++) {
 					List<List<Object>> dataList = excelSheetPO.getDataList();
 					List<Object> rowDataList = new ArrayList<Object>();
@@ -206,15 +208,26 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 							|| dataList.get(i).get(3) == null || "".equals(dataList.get(i).get(3))) {
 						continue;
 					}
+					//需求/任务编号
 					rowDataList.add(dataList.get(i).get(0));
+					//任务类型
 					rowDataList.add(dataList.get(i).get(1));
+					//任务名称
 					rowDataList.add(dataList.get(i).get(2));
-					rowDataList.add(start.replace("-","/"));
-					rowDataList.add(end.replace("-","/"));
+//					rowDataList.add(start.replace("-","/"));
+//					rowDataList.add(end.replace("-","/"));
+					//实际开始日期
+					rowDataList.add(date.replace("-","/"));
+					//实际结束日期
+					rowDataList.add(date.replace("-","/"));
 					double worktime = Double.parseDouble(String.valueOf(dataList.get(i).get(3)));
+					//实际工作量（人/天）
 					rowDataList.add(worktime/8);
+					//责任人
 					rowDataList.add(personName);
+					//完成比率
 					rowDataList.add("");
+					//任务拖延原因/客户评价
 					rowDataList.add("");
 					lastDataLists.add(rowDataList);
 				}
@@ -248,8 +261,11 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 					}
 
 					if(!personName.equals(temName)||temName==null){
+						//需求/任务编号
 						rowDataList.add("");
+						//类型
 						rowDataList.add("");
+						//任务名称
 						rowDataList.add("");
 						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 						Date startDate  = null;
@@ -272,10 +288,15 @@ public class DailyToWeeklyServiceImpl implements DailyToWeeklyService {
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
+						//计划开始日期
 						rowDataList.add(new SimpleDateFormat("yyyy/MM/dd").format(startDate));
+						//计划结束日期
 						rowDataList.add(new SimpleDateFormat("yyyy/MM/dd").format(endDate));
+						//工作量估计（人/天）
 						rowDataList.add(5);
+						//责任人
 						rowDataList.add(personName);
+						//备注
 						rowDataList.add("");
 						nextDataLists.add(rowDataList);
 
